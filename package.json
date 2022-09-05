@@ -10,6 +10,7 @@
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
   },
   "dependencies": {
+    "@realm/react": "^0.3.2",
     "native-base": "^3.4.13",
     "react": "18.0.0",
     "react-native": "0.69.5",

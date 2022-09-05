@@ -1,10 +1,10 @@
-import { Center, Text } from "native-base";
+import { Center, Heading } from "native-base";
 import React from "react";
 
 export function Home() {
   return (
-    <Center height="full">
-      <Text>Metafocus</Text>
+    <Center height={"full"}>
+      <Heading>Metafocus</Heading>
     </Center>
   );
 }
