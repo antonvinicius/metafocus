@@ -1,11 +1,11 @@
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
-import { PublicRoutes } from "./PublicRoutes";
+import { PublicTabs } from "./PublicTabs";
 
 export function Routes() {
   return (
     <NavigationContainer>
-      <PublicRoutes />
+      <PublicTabs />
     </NavigationContainer>
   );
 }
