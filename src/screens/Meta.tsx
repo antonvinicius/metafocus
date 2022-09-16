@@ -1,10 +1,63 @@
 import React from "react";
-import { Box, Heading } from "native-base";
+import {
+  Box,
+  Button,
+  FormControl,
+  Heading,
+  HStack,
+  Icon,
+  Input,
+  Pressable,
+  ScrollView,
+  Select,
+  Text,
+  TextArea,
+} from "native-base";
+import Entypo from "react-native-vector-icons/Entypo";
 
 export function Meta() {
   return (
-    <Box flex="1" alignItems="center" justifyContent="center">
-      <Heading>Meta</Heading>
+    <Box flex="1" w="100%" p="5">
+      <ScrollView flex="1">
+        <FormControl isRequired>
+          <FormControl.Label>Título</FormControl.Label>
+          <Input placeholder="Título da metas" />
+        </FormControl>
+
+        <FormControl isRequired>
+          <FormControl.Label>Descrição</FormControl.Label>
+          <TextArea
+            placeholder="Insira a descrição da meta"
+            autoCompleteType={false}
+          />
+        </FormControl>
+
+        <FormControl isRequired>
+          <FormControl.Label>Categoria</FormControl.Label>
+          <Select placeholder="Selecione a categoria"></Select>
+        </FormControl>
+
+        <Pressable>
+          <HStack alignItems="center" my="5">
+            <Icon as={Entypo} size="24px" mr="12px" name="plus" />
+            <Text fontSize="md">Criar nova categoria</Text>
+          </HStack>
+        </Pressable>
+
+        <HStack justifyContent="center" space="4" mt="5">
+          <Button
+            _pressed={{
+              bg: "#1b6b4f",
+            }}
+            bg="#38B387"
+          >
+            Salvar
+          </Button>
+          <Button colorScheme="danger" variant="outline">
+            Cancelar
+          </Button>
+        </HStack>
+      </ScrollView>
     </Box>
   );
 }
