@@ -5,9 +5,9 @@ export function Login() {
   return (
     <Center height={"full"}>
       <Box px="5">
-        <Heading>Como deseja se chamar?</Heading>
-        <Input placeholder="Seu nickname" />
-        <Button>Salvar</Button>
+        <Heading marginTop="5">Como você quer ser chamado?</Heading>
+        <Input marginTop="5" placeholder="Nickname" />
+        <Button bgColor="#38B387" marginTop="5">Salvar</Button>
       </Box>
     </Center>
   );
