@@ -26,6 +26,7 @@ export function PublicTabs() {
           padding: 0,
           margin: 0,
         },
+        tabBarHideOnKeyboard: true,
       }}
     >
       <Tab.Screen
@@ -41,11 +42,20 @@ export function PublicTabs() {
       />
       <Tab.Screen
         options={{
+          headerShown: true,
           tabBarIcon: () => (
             <Box p="10px" rounded="full" bg="#38B387">
               <AntDesign size={25} name="plussquareo" color="#FFF" />
             </Box>
           ),
+          headerStyle: {
+            backgroundColor: "#38B387",
+          },
+          headerTitleStyle: {
+            color: "#FFF",
+          },
+          headerTitleAlign: "center",
+          headerTitle: "Nova Meta",
         }}
         name="Meta"
         component={Meta}
