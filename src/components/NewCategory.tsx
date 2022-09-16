@@ -8,6 +8,7 @@ import {
   HStack,
   Icon,
   Input,
+  ScrollView,
   Select,
   Text,
   VStack,
@@ -41,17 +42,40 @@ export function NewCategory({ hideModal }: NewCategoryProps) {
           </FormControl>
           <FormControl isRequired>
             <FormControl.Label>Atributos</FormControl.Label>
-            {/* <Checkbox
-              value="saude"
-              colorScheme="red"
-              size="md"
-              icon={<Icon as={Ionicons} name="medical" />}
-              defaultIsChecked
-            >
-              Saúde
-            </Checkbox> */}
+            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+              <HStack space="3" my="5" overflow="hidden">
+                <Checkbox
+                  value="saude"
+                  colorScheme="red"
+                  size="md"
+                  icon={<Icon as={Ionicons} name="medical" />}
+                  defaultIsChecked
+                >
+                  Saúde
+                </Checkbox>
+
+                <Checkbox
+                  value="saude"
+                  colorScheme="red"
+                  size="md"
+                  icon={<Icon as={Ionicons} name="medical" />}
+                  defaultIsChecked
+                >
+                  Saúde
+                </Checkbox>
+                <Checkbox
+                  value="saude"
+                  colorScheme="red"
+                  size="md"
+                  icon={<Icon as={Ionicons} name="medical" />}
+                  defaultIsChecked
+                >
+                  Saúde
+                </Checkbox>
+              </HStack>
+            </ScrollView>
           </FormControl>
-          <HStack justifyContent="center" space="4" mt="5">
+          <HStack justifyContent="center" space="4">
             <Button
               _pressed={{
                 bg: "#1b6b4f",
