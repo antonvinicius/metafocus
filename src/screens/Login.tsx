@@ -1,16 +1,5 @@
 import React from "react";
-import {
-  Box,
-  Button,
-  Center,
-  Column,
-  Flex,
-  Heading,
-  Image,
-  Input,
-  Spacer,
-  Text,
-} from "native-base";
+import { Box, Button, Center, Heading, Image, Input, Text } from "native-base";
 
 import Logo from "../../assets/logo.png";
 
