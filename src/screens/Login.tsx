@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Box,
   Button,
@@ -10,13 +11,13 @@ import {
   Spacer,
   Text,
 } from "native-base";
-import { color, flexbox } from "native-base/lib/typescript/theme/styled-system";
-import React from "react";
-import MetaFocusLogo from "../../assets/MetaFocus.png";
+
+import Logo from "../../assets/logo.png";
+
 export function Login() {
   return (
     <Center height={"full"}>
-      <Image source={MetaFocusLogo} mt={-5} />
+      <Image source={Logo} width={192} height={111} alt="Logo" mt={-5} />
       <Box>
         <Heading
           mt={15}
