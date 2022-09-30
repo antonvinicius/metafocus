@@ -1,12 +1,15 @@
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
-import { PublicTabs } from "./PublicTabs";
 import { PublicRoutes } from "./PublicRoutes";
+import { useAuth } from "../hooks/useAuth";
+import { PublicTabs } from "./PublicTabs";
 
 export function Routes() {
+  const { authenticated } = useAuth();
+
   return (
     <NavigationContainer>
-      <PublicTabs />
+      {authenticated ? <PublicTabs /> : <PublicRoutes />}
     </NavigationContainer>
   );
 }

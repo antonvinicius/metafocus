@@ -2,8 +2,11 @@ import React from "react";
 import { Box, Button, Center, Heading, Image, Input, Text } from "native-base";
 
 import Logo from "../../assets/logo.png";
+import { useAuth } from "../hooks/useAuth";
 
 export function Login() {
+  const { setAuthenticated } = useAuth();
+
   return (
     <Center height={"full"}>
       <Image source={Logo} width={192} height={111} alt="Logo" mt={-5} />
@@ -37,6 +40,7 @@ export function Login() {
           shadow={2}
           fontSize={30}
           bgColor={"#38B374"}
+          onPress={() => setAuthenticated(true)}
         >
           Registrar-se
         </Button>

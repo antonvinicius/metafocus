@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -15,6 +15,7 @@ import {
 } from "native-base";
 import Entypo from "react-native-vector-icons/Entypo";
 import { NewCategory } from "../components/NewCategory";
+import { BackHandler } from "react-native";
 
 export function Meta() {
   const [showModal, setShowModal] = useState(false);
