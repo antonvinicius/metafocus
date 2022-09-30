@@ -28,12 +28,15 @@ export function MetaItem({ meta }: MetaItemProps) {
         </VStack>
         <VStack space="2" justifyContent="center">
           <Button
+            _text={{
+              color: "#38B374",
+            }}
             variant="outline"
             leftIcon={<Icon as={Feather} name="edit" />}
           >
             Editar
           </Button>
-          <Button leftIcon={<Icon as={Feather} name="check" />}>
+          <Button bg="#38B374" leftIcon={<Icon as={Feather} name="check" />}>
             Finalizar
           </Button>
         </VStack>

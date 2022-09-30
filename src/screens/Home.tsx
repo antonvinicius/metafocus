@@ -1,4 +1,4 @@
-import { Box, Heading, Button, Icon, VStack, FlatList } from "native-base";
+import { Box, Heading, Button, Icon, FlatList } from "native-base";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import React from "react";
 import { data } from "../server/metas.json";
