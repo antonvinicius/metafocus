@@ -33,6 +33,15 @@ export function PublicTabs() {
         name="Home"
         component={Home}
         options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: "#38B387",
+          },
+          headerTitleStyle: {
+            color: "#FFF",
+          },
+          headerTitleAlign: "center",
+          headerTitle: "Suas Metas",
           tabBarIcon: () => (
             <Box p="10px" rounded="full" bg="#38B387">
               <AntDesign size={25} name="home" color="#FFF" />
