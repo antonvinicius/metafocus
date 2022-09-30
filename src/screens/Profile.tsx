@@ -10,7 +10,7 @@ import {
 import React from "react";
 import Feather from "react-native-vector-icons/Feather";
 
-export function Profile() {
+export function Profile({ navigation: { navigate } }: any) {
   return (
     <Box flex="1" mt="5" px="5">
       <Avatar
@@ -34,6 +34,7 @@ export function Profile() {
       </HStack>
       <Divider my="2" />
       <Button
+        onPress={() => navigate("Results")}
         variant="outline"
         _text={{
           color: "#38B387",

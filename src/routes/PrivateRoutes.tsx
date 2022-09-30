@@ -6,10 +6,13 @@ import { Profile } from "../screens/Profile";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { Box } from "native-base";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { Results } from "../screens/Results";
 
 const Tab = createBottomTabNavigator();
+const Stack = createNativeStackNavigator();
 
-export function PublicTabs() {
+function Tabs() {
   return (
     <Tab.Navigator
       screenOptions={{
@@ -90,5 +93,33 @@ export function PublicTabs() {
         component={Profile}
       />
     </Tab.Navigator>
+  );
+}
+
+export function PrivateRoutes() {
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
+      <Stack.Screen name="Tabs" component={Tabs} />
+      <Stack.Screen
+        options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: "#38B387",
+          },
+          headerTitleStyle: {
+            color: "#FFF",
+          },
+          headerTitleAlign: "center",
+          headerTitle: "Resultados",
+          headerTintColor: "#FFFFFF",
+        }}
+        name="Results"
+        component={Results}
+      />
+    </Stack.Navigator>
   );
 }
