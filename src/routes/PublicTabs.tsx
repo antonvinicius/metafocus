@@ -71,6 +71,15 @@ export function PublicTabs() {
       />
       <Tab.Screen
         options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: "#38B387",
+          },
+          headerTitleStyle: {
+            color: "#FFF",
+          },
+          headerTitleAlign: "center",
+          headerTitle: "Perfil",
           tabBarIcon: () => (
             <Box p="10px" rounded="full" bg="#38B387">
               <Ionicons size={25} name="person" color="#FFF" />
