@@ -1,11 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { Box, Button, Center, Heading, Image, Input, Text } from "native-base";
 
 import Logo from "../../assets/logo.png";
 import { useAuth } from "../hooks/useAuth";
+import { User } from "../models/User";
 
 export function Login() {
-  const { setAuthenticated } = useAuth();
+  const [nickname, setNickname] = useState("");
+  const { createUser } = useAuth();
 
   return (
     <Center height={"full"}>
@@ -25,6 +27,8 @@ export function Login() {
           fontSize={15}
           placeholder="Nickname"
           placeholderTextColor={"#A3A3A3"}
+          value={nickname}
+          onChangeText={setNickname}
           mt={9}
           mb={9}
         />
@@ -40,7 +44,10 @@ export function Login() {
           shadow={2}
           fontSize={30}
           bgColor={"#38B374"}
-          onPress={() => setAuthenticated(true)}
+          onPress={() => {
+            const user = User.generate(nickname);
+            createUser(user);
+          }}
         >
           Registrar-se
         </Button>

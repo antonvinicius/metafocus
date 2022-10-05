@@ -1,22 +1,24 @@
+import "react-native-get-random-values";
 import { Realm } from "@realm/react";
-
+import { v4 } from "uuid";
 export class User extends Realm.Object {
-  id: Realm.BSON.ObjectId;
-  nickname: string;
-  createdAt: Date;
+  id!: string;
+  nickname!: string;
+  createdAt!: Date;
 
-  constructor(nickname: string) {
-    super();
-    this.id = new Realm.BSON.ObjectId();
-    this.nickname = nickname;
-    this.createdAt = new Date();
+  static generate(nickname: string) {
+    return {
+      id: v4(),
+      nickname,
+      createdAt: new Date(),
+    };
   }
 
   static schema = {
     name: "User",
     primaryKey: "id",
     properties: {
-      id: "objectId",
+      id: "string",
       nickname: "string",
       createdAt: "date",
     },
