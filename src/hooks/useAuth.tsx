@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   createContext,
   Dispatch,
@@ -6,6 +6,8 @@ import {
   useContext,
   useState,
 } from "react";
+import { realmContext } from "../config/Realm";
+import { User } from "../models/User";
 
 interface AuthContextProps {
   authenticated: boolean;
@@ -15,7 +17,16 @@ interface AuthContextProps {
 const AuthContext = createContext<AuthContextProps>({} as AuthContextProps);
 
 export function AuthProvider({ children }: any) {
+  const { useQuery } = realmContext;
   const [authenticated, setAuthenticated] = useState(false);
+  const users = useQuery("User");
+
+  useEffect(() => {
+    const userRegistered = users.length > 0;
+    if (!userRegistered)
+      console.info("User is not registered, provide nickname 😅");
+    setAuthenticated(userRegistered);
+  }, []);
 
   return (
     <>
