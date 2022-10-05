@@ -15,6 +15,7 @@ import {
 } from "native-base";
 import React from "react";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import { data as attributes } from "../server/attributes.json";
 
 interface NewCategoryProps {
   hideModal: () => void;
@@ -44,34 +45,18 @@ export function NewCategory({ hideModal }: NewCategoryProps) {
             <FormControl.Label>Atributos</FormControl.Label>
             <ScrollView horizontal showsHorizontalScrollIndicator={false}>
               <HStack space="3" my="5" overflow="hidden">
-                <Checkbox
-                  value="saude"
-                  colorScheme="red"
-                  size="md"
-                  icon={<Icon as={Ionicons} name="medical" />}
-                  defaultIsChecked
-                >
-                  Saúde
-                </Checkbox>
-
-                <Checkbox
-                  value="saude"
-                  colorScheme="red"
-                  size="md"
-                  icon={<Icon as={Ionicons} name="medical" />}
-                  defaultIsChecked
-                >
-                  Saúde
-                </Checkbox>
-                <Checkbox
-                  value="saude"
-                  colorScheme="red"
-                  size="md"
-                  icon={<Icon as={Ionicons} name="medical" />}
-                  defaultIsChecked
-                >
-                  Saúde
-                </Checkbox>
+                {attributes.map((attribute) => (
+                  <Checkbox
+                    key={attribute.id}
+                    value={attribute.id}
+                    colorScheme={attribute.color}
+                    size="md"
+                    icon={<Icon as={Ionicons} name={attribute.icon} />}
+                    defaultIsChecked
+                  >
+                    {attribute.name}
+                  </Checkbox>
+                ))}
               </HStack>
             </ScrollView>
           </FormControl>

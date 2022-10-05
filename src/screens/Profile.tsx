@@ -9,28 +9,36 @@ import {
 } from "native-base";
 import React from "react";
 import Feather from "react-native-vector-icons/Feather";
+import { realmContext } from "../config/Realm";
+import { User } from "../models/User";
 
 export function Profile({ navigation: { navigate } }: any) {
+  const { useQuery } = realmContext;
+  const users = useQuery(User);
+
   return (
     <Box flex="1" mt="5" px="5">
-      <Avatar
-        bg="#38B387"
+      <Box
         alignSelf="center"
-        size="2xl"
-        source={{
-          uri: "https://bit.ly/broken-link",
-        }}
+        bg="#38B387"
+        justifyContent="center"
+        alignItems="center"
+        w="200px"
+        h="200px"
+        rounded="full"
       >
-        AV
-      </Avatar>
+        <Text fontSize="3xl" color="white">
+          {users[0].nickname.slice(0, 2).toUpperCase()}
+        </Text>
+      </Box>
       <Heading mt="3">Perfil</Heading>
       <Divider my="2" />
       <HStack justifyContent="space-between">
         <HStack space="3" alignItems="center">
           <Feather name="user" size={24} />
-          <Text fontSize="lg">Antônio Vinícius</Text>
+          <Text fontSize="lg">{users[0].nickname}</Text>
         </HStack>
-        <Feather name="edit" size={24} />
+        {/* <Feather name="edit" size={24} /> */}
       </HStack>
       <Divider my="2" />
       <Button
