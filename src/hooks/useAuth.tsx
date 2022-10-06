@@ -31,6 +31,10 @@ export function AuthProvider({ children }: any) {
     }
   }
 
+  function createMeta(meta: any){
+    
+  }
+
   useEffect(() => {
     const userRegistered = users.length > 0;
     if (!userRegistered)

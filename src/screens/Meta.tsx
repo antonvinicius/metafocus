@@ -15,10 +15,13 @@ import {
 } from "native-base";
 import Entypo from "react-native-vector-icons/Entypo";
 import { NewCategory } from "../components/NewCategory";
+import { useAuth } from "../hooks/useAuth";
 import { BackHandler } from "react-native";
 
 export function Meta() {
   const [showModal, setShowModal] = useState(false);
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
 
   function closeModal() {
     setShowModal(false);
@@ -31,20 +34,21 @@ export function Meta() {
         <ScrollView flex="1">
           <FormControl isRequired>
             <FormControl.Label>Título</FormControl.Label>
-            <Input placeholder="Título da metas" />
+            <Input value={title} onChangeText={setTitle} placeholder="Título da metas" />
           </FormControl>
 
           <FormControl isRequired>
             <FormControl.Label>Descrição</FormControl.Label>
-            <TextArea
-              placeholder="Insira a descrição da meta"
+            <TextArea value={description} onChangeText={setDescription} placeholder="Insira a descrição da meta"
               autoCompleteType={false}
             />
           </FormControl>
 
           <FormControl isRequired>
             <FormControl.Label>Categoria</FormControl.Label>
-            <Select placeholder="Selecione a categoria"></Select>
+            <Select placeholder="Selecione a categoria">
+              
+            </Select>
           </FormControl>
 
           <Pressable onPress={() => setShowModal(true)}>
@@ -60,10 +64,11 @@ export function Meta() {
                 bg: "#1b6b4f",
               }}
               bg="#38B387"
+              
             >
               Salvar
             </Button>
-            <Button colorScheme="danger" variant="outline">
+            <Button colorScheme="danger" variant="outline" >            
               Cancelar
             </Button>
           </HStack>
