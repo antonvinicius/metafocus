@@ -1,13 +1,23 @@
 import React from "react";
 import { Box, Button, HStack, Icon, Text, VStack } from "native-base";
-import { Meta } from "../interfaces/Meta";
 import Feather from "react-native-vector-icons/Feather";
+import { realmContext } from "../config/Realm";
+import { Meta } from "../models/Meta";
 
-interface MetaItemProps {
-  meta: Meta;
-}
+export function MetaItem({ meta }: any) {
+  const { useRealm } = realmContext;
 
-export function MetaItem({ meta }: MetaItemProps) {
+  const realm = useRealm();
+  const metaDb = realm.objectForPrimaryKey(Meta, meta.id);
+
+  console.log(meta);
+
+  function finishMeta() {
+    realm.write(() => {
+      realm.create("Meta", { id: meta.id, status: 1 }, "modified");
+    });
+  }
+
   return (
     <Box bg="white" shadow="2">
       <HStack justifyContent="space-between" p="5">
@@ -36,7 +46,11 @@ export function MetaItem({ meta }: MetaItemProps) {
           >
             Editar
           </Button> */}
-          <Button bg="#38B374" leftIcon={<Icon as={Feather} name="check" />}>
+          <Button
+            onPress={finishMeta}
+            bg="#38B374"
+            leftIcon={<Icon as={Feather} name="check" />}
+          >
             Finalizar
           </Button>
         </VStack>

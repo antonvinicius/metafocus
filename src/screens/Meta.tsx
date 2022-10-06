@@ -17,25 +17,41 @@ import Entypo from "react-native-vector-icons/Entypo";
 import { NewCategory } from "../components/NewCategory";
 import { useAuth } from "../hooks/useAuth";
 
-import { BackHandler } from "react-native";
-import { data } from "../server/categories.json";
-import { Category } from "../interfaces/Category";
+import { realmContext } from "../config/Realm";
+import { Meta as MetaModel } from "../models/Meta";
+import { Category } from "../models/Category";
 
-export function Meta() {
+export function Meta({ navigation }: any) {
   const [showModal, setShowModal] = useState(false);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const { useRealm, useQuery } = realmContext;
   const { createMeta } = useAuth();
-  const categories: Category[] = [];
-  data.map((categoria) => {
-      categories.push({
-      color: categoria.color,
-      name: categoria.name,
-      attributes: categoria.attributes,
+
+  const realm = useRealm();
+  const categories = useQuery(Category);
+
+  if (categories.length === 0) {
+    // Seed categories
+    realm.write(() => {
+      realm.create("Category", Category.generate("#B4EBCA", "Esporte"));
+      realm.create("Category", Category.generate("#E86252", "Saúde"));
+      realm.create("Category", Category.generate("#EDB458", "Lazer"));
     });
-  });
+  }
+
   function closeModal() {
     setShowModal(false);
+  }
+
+  function saveMeta() {
+    if (!title || !description) return;
+    realm.write(() => {
+      realm.create("Meta", MetaModel.generate(title, description, 0));
+    });
+    navigation.navigate("Home");
+    setTitle("");
+    setDescription("");
   }
 
   return (
@@ -45,12 +61,19 @@ export function Meta() {
         <ScrollView flex="1">
           <FormControl isRequired>
             <FormControl.Label>Título</FormControl.Label>
-            <Input value={title} onChangeText={setTitle} placeholder="Título da metas" />
+            <Input
+              value={title}
+              onChangeText={setTitle}
+              placeholder="Título da metas"
+            />
           </FormControl>
 
           <FormControl isRequired>
             <FormControl.Label>Descrição</FormControl.Label>
-            <TextArea value={description} onChangeText={setDescription} placeholder="Insira a descrição da meta"
+            <TextArea
+              value={description}
+              onChangeText={setDescription}
+              placeholder="Insira a descrição da meta"
               autoCompleteType={false}
             />
           </FormControl>
@@ -58,7 +81,13 @@ export function Meta() {
           <FormControl isRequired>
             <FormControl.Label>Categoria</FormControl.Label>
             <Select placeholder="Selecione a categoria">
-              { categories.map((item) => (<option key={Math.random().toString()} value={item.name} label={item.name}></option>))}
+              {categories.map((item) => (
+                <option
+                  key={Math.random().toString()}
+                  value={item.name}
+                  label={item.name}
+                ></option>
+              ))}
             </Select>
           </FormControl>
 
@@ -71,6 +100,7 @@ export function Meta() {
 
           <HStack justifyContent="center" space="4" mt="5">
             <Button
+              onPress={saveMeta}
               _pressed={{
                 bg: "#1b6b4f",
               }}
@@ -78,7 +108,13 @@ export function Meta() {
             >
               Salvar
             </Button>
-            <Button colorScheme="danger" variant="outline" >            
+            <Button
+              colorScheme="danger"
+              variant="outline"
+              onPress={() => {
+                navigation.navigate("Home");
+              }}
+            >
               Cancelar
             </Button>
           </HStack>
