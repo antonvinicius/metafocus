@@ -8,11 +8,12 @@ export class Meta extends Realm.Object {
   status!: boolean;
   createdAt!: Date;
 
-  static generate(description: string, title: string) {
+  static generate(description: string, title: string, status: boolean) {
     return {
       id: v4(),
       description,
       title,
+      status,
       createdAt: new Date(),
     };
   }
