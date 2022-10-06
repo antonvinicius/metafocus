@@ -17,11 +17,13 @@ import Entypo from "react-native-vector-icons/Entypo";
 import { NewCategory } from "../components/NewCategory";
 import { useAuth } from "../hooks/useAuth";
 import { BackHandler } from "react-native";
+import { data } from "../server/categories.json";
 
 export function Meta() {
   const [showModal, setShowModal] = useState(false);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+
 
   function closeModal() {
     setShowModal(false);
