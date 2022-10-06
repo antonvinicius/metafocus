@@ -13,6 +13,7 @@ interface AuthContextProps {
   authenticated: boolean;
   setAuthenticated: Dispatch<SetStateAction<boolean>>;
   createUser: (user: any) => void;
+  createMeta: (meta: any) => void;
 }
 
 const AuthContext = createContext<AuthContextProps>({} as AuthContextProps);
@@ -32,7 +33,11 @@ export function AuthProvider({ children }: any) {
   }
 
   function createMeta(meta: any){
-    
+    if(meta.name){
+      realm.write(() => {
+        realm.create("Meta", meta)
+      });
+    }
   }
 
   useEffect(() => {
@@ -50,6 +55,7 @@ export function AuthProvider({ children }: any) {
           authenticated,
           setAuthenticated,
           createUser,
+          createMeta
         }}
       >
         {children}

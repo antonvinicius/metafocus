@@ -1,19 +1,22 @@
 import "react-native-get-random-values";
 import { Realm } from "@realm/react";
 import { v4 } from "uuid";
+import { Category } from "../interfaces/Category";
 export class Meta extends Realm.Object {
   id!: string;
-  description!: string;
   title!: string;
-  status!: boolean;
+  description!: string;
+  status!: number;
+  categories!: Category[];
   createdAt!: Date;
 
-  static generate(description: string, title: string, status: boolean) {
+  static generate(title: string, description: string, status: number, categories: Category[]) {
     return {
       id: v4(),
-      description,
       title,
+      description,
       status,
+      categories,
       createdAt: new Date(),
     };
   }
@@ -25,7 +28,8 @@ export class Meta extends Realm.Object {
       id: "string",
       description: "string",
       title: "string",
-      status: false,
+      status: "number",
+      categories: "data",
       createdAt: "date",
     },
   };

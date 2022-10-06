@@ -16,15 +16,24 @@ import {
 import Entypo from "react-native-vector-icons/Entypo";
 import { NewCategory } from "../components/NewCategory";
 import { useAuth } from "../hooks/useAuth";
+
 import { BackHandler } from "react-native";
 import { data } from "../server/categories.json";
+import { Category } from "../interfaces/Category";
 
 export function Meta() {
   const [showModal, setShowModal] = useState(false);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-
-
+  const { createMeta } = useAuth();
+  const categories: Category[] = [];
+  data.map((categoria) => {
+      categories.push({
+      color: categoria.color,
+      name: categoria.name,
+      attributes: categoria.attributes,
+    });
+  });
   function closeModal() {
     setShowModal(false);
   }
@@ -49,7 +58,7 @@ export function Meta() {
           <FormControl isRequired>
             <FormControl.Label>Categoria</FormControl.Label>
             <Select placeholder="Selecione a categoria">
-              
+              { categories.map((item) => (<option key={Math.random().toString()} value={item.name} label={item.name}></option>))}
             </Select>
           </FormControl>
 
@@ -66,7 +75,6 @@ export function Meta() {
                 bg: "#1b6b4f",
               }}
               bg="#38B387"
-              
             >
               Salvar
             </Button>
