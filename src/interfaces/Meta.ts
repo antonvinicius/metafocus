@@ -1,9 +1,9 @@
-import { Category } from "./Category";
+import {Category} from "./Category";
 
 export interface Meta {
-  id: number;
-  description: string;
-  title: string;
-  status: number;
-  categories: Category[];
+    id: number;
+    description: string;
+    title: string;
+    status: number;
+    categories: Category[];
 }
