@@ -8,7 +8,6 @@ export function MetaItem({meta}: any) {
     const {useRealm} = realmContext;
 
     const realm = useRealm();
-    const metaDb = realm.objectForPrimaryKey(Meta, meta.id);
 
     console.log(meta);
 

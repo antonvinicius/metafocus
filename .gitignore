@@ -24,7 +24,6 @@ ios/.xcode.env.local
 
 # Android/IntelliJ
 #
-build/
 .idea
 .gradle
 local.properties
@@ -61,3 +60,6 @@ buck-out/
 # Ruby / CocoaPods
 /ios/Pods/
 /vendor/bundle/
+/android/app/release/app-release.apk
+/android/app/src/main/assets/index.android.bundle
+/android/app/release/output-metadata.json

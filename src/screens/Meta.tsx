@@ -12,7 +12,6 @@ export function Meta({navigation}: any) {
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const {useRealm, useQuery} = realmContext;
-    const {createMeta} = useAuth();
 
     const realm = useRealm();
     const categories = useQuery(Category);
