@@ -19,7 +19,7 @@ export function Results() {
   });
 
   return (
-    <Box flex="1" justifyContent="center" alignItems="center">
+    <Box justifyContent="center" alignItems="center">
       {attributes.map((item) => (
         <AttributeComponent key={Math.random().toString()} attribute={item} />
       ))}
