@@ -7,7 +7,7 @@ import { User } from "../models/User";
 
 export function Login() {
   const [nickname, setNickname] = useState("");
-  const { createUser } = useAuth();
+  const { setAuthenticated } = useAuth();
 
   return (
     <Center height={"full"}>
@@ -45,8 +45,7 @@ export function Login() {
           fontSize={30}
           bgColor={"#38B374"}
           onPress={() => {
-            const user = User.generate(nickname);
-            createUser(user);
+            setAuthenticated(true);
           }}
         >
           Registrar-se

@@ -9,13 +9,9 @@ import {
 } from "native-base";
 import React from "react";
 import Feather from "react-native-vector-icons/Feather";
-import { realmContext } from "../config/Realm";
 import { User } from "../models/User";
 
 export function Profile({ navigation: { navigate } }: any) {
-  const { useQuery } = realmContext;
-  const users = useQuery(User);
-
   return (
     <Box flex="1" mt="5" px="5">
       <Box
@@ -28,7 +24,7 @@ export function Profile({ navigation: { navigate } }: any) {
         rounded="full"
       >
         <Text fontSize="3xl" color="white">
-          {users[0].nickname.slice(0, 2).toUpperCase()}
+          Vinicius
         </Text>
       </Box>
       <Heading mt="3">Perfil</Heading>
@@ -36,7 +32,7 @@ export function Profile({ navigation: { navigate } }: any) {
       <HStack justifyContent="space-between">
         <HStack space="3" alignItems="center">
           <Feather name="user" size={24} />
-          <Text fontSize="lg">{users[0].nickname}</Text>
+          <Text fontSize="lg">Vini</Text>
         </HStack>
         {/* <Feather name="edit" size={24} /> */}
       </HStack>
