@@ -1,37 +1,32 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   Box,
   Button,
   Center,
+  FlatList,
   Heading,
   Image,
-  Input,
-  StatusBar,
   Text,
+  VStack,
 } from "native-base";
 
-import Logo from "../../assets/logo.png";
 import Bg from "../../assets/bg.jpg";
-import { useAuth } from "../hooks/useAuth";
+import Logo from "../../assets/logo.png";
 import { ImageBackground } from "react-native";
+import { avatars } from "../utils/AvatarsUtil";
 
-export function Login() {
-  const [nickname, setNickname] = useState("");
-  const { setAuthenticated } = useAuth();
+export function Login({ navigation }: any) {
+  const avatarExample = avatars;
 
   return (
     <Box flex="1">
-      <StatusBar
-        translucent
-        barStyle="light-content"
-        backgroundColor="transparent"
-      />
       <ImageBackground resizeMode="cover" source={Bg} style={{ flex: 1 }}>
-        <Center mt={21}>
-          <Image source={Logo} alt="Logo" />
-          <Box>
+        <Box p={5} flex="1" justifyContent={"space-between"}>
+          <VStack space={3}>
+            <Center mt="10px">
+              <Image source={Logo} alt="Logo" />
+            </Center>
             <Heading
-              mt={50}
               fontSize={20}
               color="white"
               justifyContent={"center"}
@@ -40,47 +35,36 @@ export function Login() {
               numberOfLines={3}
               textAlign="center"
             >
-              Como você quer ser {"\n"}chamado?
+              Seja bem vindo ao{"\n"}
+              Metafocus
             </Heading>
-            <Input
-              fontSize={15}
-              placeholder="Nickname"
-              value={nickname}
-              color="white"
-              variant="filled"
-              w="80%"
-              onChangeText={setNickname}
-              mt={9}
-              mb={9}
-            />
-
-            <Button
-              borderRadius={10}
-              alignSelf={"center"}
-              justifyContent={"center"}
-              alignItems={"center"}
-              height={10}
-              width={150}
-              mb={10}
-              shadow={2}
-              fontSize={30}
-              onPress={() => {
-                setAuthenticated(true);
-              }}
-            >
-              Registrar-se
+            <Box>
+              <Heading my={5} color="white">
+                Contas existentes
+              </Heading>
+              <FlatList
+                horizontal
+                data={avatarExample}
+                renderItem={({ item }) => (
+                  <Box py={2}>
+                    <Box p={2} mx="5" bg="white" borderRadius={"full"}>
+                      <Image source={item.source} w={50} h={50} alt="avatar" />
+                    </Box>
+                    <Text textAlign="center" color="white">
+                      nickname
+                    </Text>
+                  </Box>
+                )}
+              />
+            </Box>
+            <Button onPress={() => navigation.navigate("Register")}>
+              Criar nova conta
             </Button>
-          </Box>
-
-          <Text
-            mt={35}
-            color="white"
-            justifyContent={"center"}
-            alignItems={"flex-end"}
-          >
+          </VStack>
+          <Text mt={35} color="white" textAlign="center">
             ©MetaFocus
           </Text>
-        </Center>
+        </Box>
       </ImageBackground>
     </Box>
   );
