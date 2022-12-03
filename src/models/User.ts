@@ -1,26 +1,21 @@
-import "react-native-get-random-values";
-import { Realm } from "@realm/react";
-import { v4 } from "uuid";
-export class User extends Realm.Object {
-  id!: string;
-  nickname!: string;
-  createdAt!: Date;
+import { Attribute } from "./Attribute";
+import { Entity } from "./Entity";
 
-  static generate(nickname: string) {
-    return {
-      id: v4(),
-      nickname,
-      createdAt: new Date(),
-    };
+class User extends Entity {
+  public attributes: Attribute[];
+
+  constructor(public nickname: string, public avatar: string) {
+    super();
+    this.attributes = [
+      new Attribute("Força", "strenght"),
+      new Attribute("Destreza", "strenght"),
+      new Attribute("Inteligência", "strenght"),
+      new Attribute("Sorte", "strenght"),
+      new Attribute("Saúde", "strenght"),
+      new Attribute("Perspicácia", "strenght"),
+      new Attribute("Força", "strenght"),
+    ];
   }
-
-  static schema = {
-    name: "User",
-    primaryKey: "id",
-    properties: {
-      id: "string",
-      nickname: "string",
-      createdAt: "date",
-    },
-  };
 }
+
+export { User };
