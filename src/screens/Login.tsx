@@ -33,6 +33,7 @@ export function Login() {
             <Heading
               mt={50}
               fontSize={20}
+              color="white"
               justifyContent={"center"}
               flexDirection={"column"}
               alignItems={"center"}
@@ -45,6 +46,8 @@ export function Login() {
               fontSize={15}
               placeholder="Nickname"
               value={nickname}
+              color="white"
+              variant="filled"
               w="80%"
               onChangeText={setNickname}
               mt={9}
@@ -69,7 +72,12 @@ export function Login() {
             </Button>
           </Box>
 
-          <Text mt={35} justifyContent={"center"} alignItems={"flex-end"}>
+          <Text
+            mt={35}
+            color="white"
+            justifyContent={"center"}
+            alignItems={"flex-end"}
+          >
             ©MetaFocus
           </Text>
         </Center>
