@@ -55,14 +55,7 @@ export function Meta() {
           </Pressable>
 
           <HStack justifyContent="center" space="4" mt="5">
-            <Button
-              _pressed={{
-                bg: "#1b6b4f",
-              }}
-              bg="#38B387"
-            >
-              Salvar
-            </Button>
+            <Button>Salvar</Button>
             <Button colorScheme="danger" variant="outline">
               Cancelar
             </Button>

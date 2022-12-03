@@ -37,16 +37,13 @@ function Tabs() {
         component={Home}
         options={{
           headerShown: true,
-          headerStyle: {
-            backgroundColor: "#38B387",
-          },
           headerTitleStyle: {
             color: "#FFF",
           },
           headerTitleAlign: "center",
           headerTitle: "Suas Metas",
           tabBarIcon: () => (
-            <Box p="10px" rounded="full" bg="#38B387">
+            <Box p="10px" rounded="full">
               <AntDesign size={25} name="home" color="#FFF" />
             </Box>
           ),
@@ -56,13 +53,10 @@ function Tabs() {
         options={{
           headerShown: true,
           tabBarIcon: () => (
-            <Box p="10px" rounded="full" bg="#38B387">
+            <Box p="10px" rounded="full">
               <AntDesign size={25} name="plussquareo" color="#FFF" />
             </Box>
           ),
-          headerStyle: {
-            backgroundColor: "#38B387",
-          },
           headerTitleStyle: {
             color: "#FFF",
           },
@@ -75,16 +69,13 @@ function Tabs() {
       <Tab.Screen
         options={{
           headerShown: true,
-          headerStyle: {
-            backgroundColor: "#38B387",
-          },
           headerTitleStyle: {
             color: "#FFF",
           },
           headerTitleAlign: "center",
           headerTitle: "Perfil",
           tabBarIcon: () => (
-            <Box p="10px" rounded="full" bg="#38B387">
+            <Box p="10px" rounded="full">
               <Ionicons size={25} name="person" color="#FFF" />
             </Box>
           ),
@@ -107,9 +98,6 @@ export function PrivateRoutes() {
       <Stack.Screen
         options={{
           headerShown: true,
-          headerStyle: {
-            backgroundColor: "#38B387",
-          },
           headerTitleStyle: {
             color: "#FFF",
           },
