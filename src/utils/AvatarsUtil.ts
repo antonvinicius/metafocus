@@ -11,7 +11,12 @@ import Woman1 from "../../assets/avatars/woman1.png";
 import Woman2 from "../../assets/avatars/woman2.png";
 import Worker from "../../assets/avatars/worker.png";
 
-export const avatars = [
+type AvatarProps = {
+  source: any;
+  key: string;
+};
+
+export const avatars: AvatarProps[] = [
   {
     key: "bald1",
     source: Bald1,
@@ -61,3 +66,9 @@ export const avatars = [
     source: Worker,
   },
 ];
+
+export function findByKey(key: string): AvatarProps {
+  const avatar = avatars.find((a) => a.key === key);
+  if (avatar) return avatar;
+  else throw new Error("Invalid avatar key");
+}

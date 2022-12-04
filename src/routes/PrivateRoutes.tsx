@@ -38,15 +38,7 @@ function Tabs() {
         name="Home"
         component={Home}
         options={{
-          headerShown: true,
-          headerTitleStyle: {
-            color: "#FFF",
-          },
-          headerStyle: {
-            backgroundColor: theme.colors.primary,
-          },
-          headerTitleAlign: "center",
-          headerTitle: "Suas Metas",
+          headerShown: false,
           tabBarIcon: () => (
             <Box p="10px" rounded="full">
               <AntDesign size={25} name="home" color="#FFF" />
