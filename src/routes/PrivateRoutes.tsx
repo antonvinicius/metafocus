@@ -8,6 +8,7 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import { Box } from "native-base";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Results } from "../screens/Results";
+import { theme } from "../global/theme";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -18,12 +19,13 @@ function Tabs() {
       screenOptions={{
         headerShown: false,
         tabBarStyle: {
-          height: 100,
+          height: 60,
+          backgroundColor: theme.colors.primary,
         },
+        tabBarShowLabel: false,
         tabBarLabelStyle: {
           fontSize: 16,
           color: "#000000",
-          marginBottom: 13,
         },
         tabBarIconStyle: {
           padding: 0,
@@ -39,6 +41,9 @@ function Tabs() {
           headerShown: true,
           headerTitleStyle: {
             color: "#FFF",
+          },
+          headerStyle: {
+            backgroundColor: theme.colors.primary,
           },
           headerTitleAlign: "center",
           headerTitle: "Suas Metas",
@@ -60,6 +65,9 @@ function Tabs() {
           headerTitleStyle: {
             color: "#FFF",
           },
+          headerStyle: {
+            backgroundColor: theme.colors.primary,
+          },
           headerTitleAlign: "center",
           headerTitle: "Nova Meta",
         }}
@@ -74,6 +82,9 @@ function Tabs() {
           },
           headerTitleAlign: "center",
           headerTitle: "Perfil",
+          headerStyle: {
+            backgroundColor: theme.colors.primary,
+          },
           tabBarIcon: () => (
             <Box p="10px" rounded="full">
               <Ionicons size={25} name="person" color="#FFF" />
