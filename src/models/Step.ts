@@ -5,11 +5,10 @@ class Step extends BaseMeta {
   constructor(
     title: string,
     description: string,
-    finishDate: Date | null,
     goalDate: Date | null,
     public meta: Meta
   ) {
-    super(title, description, finishDate, goalDate);
+    super(title, description, goalDate);
   }
 }
 
