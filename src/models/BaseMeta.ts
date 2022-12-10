@@ -3,6 +3,7 @@ import { Entity } from "./Entity";
 abstract class BaseMeta extends Entity {
   public createdAt: Date;
   public finished: boolean;
+  public isFinished: boolean;
 
   constructor(
     public title: string,
@@ -13,6 +14,12 @@ abstract class BaseMeta extends Entity {
     super();
     this.finished = false;
     this.createdAt = new Date();
+    this.isFinished = false;
+  }
+
+  markAsDone() {
+    this.isFinished = true;
+    this.finishDate = new Date();
   }
 }
 
