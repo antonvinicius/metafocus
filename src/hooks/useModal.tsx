@@ -8,7 +8,7 @@ type ModalProps = {
 const ModalContext = createContext({} as ModalProps);
 
 export function ModalProvider({ children }: any) {
-  const [modalVisible, setModalVisible] = useState(true);
+  const [modalVisible, setModalVisible] = useState(false);
 
   return (
     <ModalContext.Provider

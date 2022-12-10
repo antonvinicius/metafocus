@@ -66,13 +66,9 @@ function Tabs() {
               justifyContent="center"
               alignItems="center"
               mt="-25px"
+              onTouchStart={() => setModalVisible(true)}
             >
-              <AntDesign
-                onPress={() => setModalVisible(true)}
-                name="pluscircle"
-                size={25}
-                color="white"
-              />
+              <AntDesign name="pluscircle" size={25} color="white" />
             </Box>
           ),
         }}
