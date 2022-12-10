@@ -5,15 +5,23 @@ import { Meta } from "../screens/Meta";
 import { Profile } from "../screens/Profile";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import { Box } from "native-base";
+import { Box, Icon, Text } from "native-base";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Results } from "../screens/Results";
 import { theme } from "../global/theme";
+import { CreateMeta } from "../components/CreateMeta";
+import { useModal } from "../hooks/useModal";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
+function AddComponent() {
+  return null;
+}
+
 function Tabs() {
+  const { setModalVisible } = useModal();
+
   return (
     <Tab.Navigator
       screenOptions={{
@@ -48,23 +56,28 @@ function Tabs() {
       />
       <Tab.Screen
         options={{
-          headerShown: true,
-          tabBarIcon: () => (
-            <Box p="10px" rounded="full">
-              <AntDesign size={25} name="plussquareo" color="#FFF" />
+          tabBarButton: () => (
+            <Box
+              shadow="2"
+              w="50px"
+              h="50px"
+              bg="primary.500"
+              borderRadius="full"
+              justifyContent="center"
+              alignItems="center"
+              mt="-25px"
+            >
+              <AntDesign
+                onPress={() => setModalVisible(true)}
+                name="pluscircle"
+                size={25}
+                color="white"
+              />
             </Box>
           ),
-          headerTitleStyle: {
-            color: "#FFF",
-          },
-          headerStyle: {
-            backgroundColor: theme.colors.primary,
-          },
-          headerTitleAlign: "center",
-          headerTitle: "Nova Meta",
         }}
-        name="Meta"
-        component={Meta}
+        name="AddComponent"
+        component={AddComponent}
       />
       <Tab.Screen
         options={{

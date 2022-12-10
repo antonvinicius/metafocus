@@ -3,6 +3,7 @@ import React, { useEffect } from "react";
 import { Routes } from "./src/routes";
 import { AuthProvider } from "./src/hooks/useAuth";
 import { nativeBaseTheme } from "./src/global/theme";
+import { ModalProvider } from "./src/hooks/useModal";
 
 export function App() {
   useEffect(() => {
@@ -10,10 +11,12 @@ export function App() {
   }, []);
 
   return (
-    <NativeBaseProvider theme={nativeBaseTheme}>
-      <AuthProvider>
-        <Routes />
-      </AuthProvider>
-    </NativeBaseProvider>
+    <ModalProvider>
+      <NativeBaseProvider theme={nativeBaseTheme}>
+        <AuthProvider>
+          <Routes />
+        </AuthProvider>
+      </NativeBaseProvider>
+    </ModalProvider>
   );
 }

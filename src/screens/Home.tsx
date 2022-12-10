@@ -1,6 +1,7 @@
 import { Box, Button, Heading, HStack, Image, Text, VStack } from "native-base";
 import React, { useEffect, useState } from "react";
 import { Pressable } from "react-native";
+import { CreateMeta } from "../components/CreateMeta";
 import { MetaItem } from "../components/MetaItem";
 import { useAuth } from "../hooks/useAuth";
 import { findByKey } from "../utils/AvatarsUtil";
@@ -52,6 +53,8 @@ export function Home() {
           </Box>
         </HStack>
       </VStack>
+
+      <CreateMeta />
 
       <MetaItem />
     </VStack>
