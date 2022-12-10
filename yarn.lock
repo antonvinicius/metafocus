@@ -1715,6 +1715,13 @@
     prompts "^2.4.0"
     semver "^6.3.0"
 
+"@react-native-community/datetimepicker@^6.7.1":
+  version "6.7.1"
+  resolved "https://registry.yarnpkg.com/@react-native-community/datetimepicker/-/datetimepicker-6.7.1.tgz#a52eed9512898adef323b2fa78c6ac4611af5502"
+  integrity sha512-NPW1YITG7N+3TsqXc4LZV3c5IEpTD5iX18r0bvFsHdIblo5qi0ykpeK3TffmMM5gbTjgKJ4DNVHOjLiWKxFUxw==
+  dependencies:
+    invariant "^2.2.4"
+
 "@react-native/assets@1.0.0":
   version "1.0.0"
   resolved "https://registry.npmjs.org/@react-native/assets/-/assets-1.0.0.tgz"
@@ -2272,6 +2279,11 @@
   version "4.14.184"
   resolved "https://registry.npmjs.org/@types/lodash/-/lodash-4.14.184.tgz"
   integrity sha512-RoZphVtHbxPZizt4IcILciSWiC6dcn+eZ8oX9IWEYfDMcocdd42f7NPI6fQj+6zI8y4E0L7gu2pcZKLGTRaV9Q==
+
+"@types/lodash@^4.14.191":
+  version "4.14.191"
+  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.191.tgz#09511e7f7cba275acd8b419ddac8da9a6a79e2fa"
+  integrity sha512-BdZ5BCCvho3EIXw6wUCXHe7rS53AIDPLE+JzwgT+OsJk53oBfbSmZZ7CX4VaRoN78N+TJpFi9QPlfIVNmJYWxQ==
 
 "@types/node@*":
   version "18.7.14"
@@ -6485,6 +6497,11 @@ react-native-modal@^13.0.1:
   dependencies:
     prop-types "^15.6.2"
     react-native-animatable "1.3.3"
+
+react-native-multi-selectbox-typescript@^0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/react-native-multi-selectbox-typescript/-/react-native-multi-selectbox-typescript-0.1.2.tgz#eaa333f171a173088580cfa15e1d6fe8a7101ab2"
+  integrity sha512-NoApB6YESUwj7jI+ATsMVoqI2nRB7hb78jL9TrSe/m8H2S0zjH/TFKAIDbzqpeBSHq85W4/FL0DIfYF0kAUS3Q==
 
 react-native-safe-area-context@^4.3.3:
   version "4.3.3"
