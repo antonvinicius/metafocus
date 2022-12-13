@@ -1,4 +1,8 @@
 import { theme } from "../global/theme";
+import { Category } from "../models/Category";
+import uuid from "react-native-uuid";
+import { Attribute } from "../models/Attribute";
+import { Item } from "react-native-multi-selectbox-typescript";
 
 export const lineChartData = {
   labels: ["January", "February", "March", "April", "May", "June"],
@@ -25,58 +29,28 @@ export const chartConfig = {
   useShadowColorFromDataset: false, // optional
 };
 
-export const selectExampleData = [
+const categories: Category[] = [
   {
-    item: "Juventus",
-    id: "JUVE",
+    id: uuid.v4() as string,
+    attributes: [new Attribute("Forte", "strong")],
+    color: "red",
+    title: "Saúde",
   },
   {
-    item: "Real Madrid",
-    id: "RM",
+    id: uuid.v4() as string,
+    attributes: [new Attribute("Forte", "strong")],
+    color: "red",
+    title: "Inteligência",
   },
   {
-    item: "Barcelona",
-    id: "BR",
-  },
-  {
-    item: "PSG",
-    id: "PSG",
-  },
-  {
-    item: "FC Bayern Munich",
-    id: "FBM",
-  },
-  {
-    item: "Manchester United FC",
-    id: "MUN",
-  },
-  {
-    item: "Manchester City FC",
-    id: "MCI",
-  },
-  {
-    item: "Everton FC",
-    id: "EVE",
-  },
-  {
-    item: "Tottenham Hotspur FC",
-    id: "TOT",
-  },
-  {
-    item: "Chelsea FC",
-    id: "CHE",
-  },
-  {
-    item: "Liverpool FC",
-    id: "LIV",
-  },
-  {
-    item: "Arsenal FC",
-    id: "ARS",
-  },
-
-  {
-    item: "Leicester City FC",
-    id: "LEI",
+    id: uuid.v4() as string,
+    attributes: [new Attribute("Forte", "strong")],
+    color: "red",
+    title: "Perspicácia",
   },
 ];
+
+export const selectExampleData: Item[] = categories.map((c) => ({
+  id: c.id,
+  item: c.title,
+}));
