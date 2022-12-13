@@ -112,7 +112,6 @@ export function MetaItem() {
             <Text maxW="180px">{meta.description}</Text>
           </VStack>
           <HStack space={2}>
-            <Icon as={Feather} color="black" name="info" size="24px" />
             <Icon as={Feather} color="black" name="edit-2" size="24px" />
             <Icon as={Feather} color="black" name="trash" size="24px" />
           </HStack>
