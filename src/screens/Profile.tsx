@@ -23,7 +23,25 @@ import { findByKey } from "../utils/AvatarsUtil";
 
 export function Profile()
 {
-  let usuario = {name: "Vinicius", age: "22", meta: "Exercitar de manha"}
+  const RNFS = require('react-native-fs')
+  let usuario = 'whatever'
+  
+  function Exportar(data: string){
+
+    let json = JSON.stringify(data);
+    let saveLocation = RNFS.DownloadDirectoryPath + '/usuario.json'
+
+    RNFS.writeFile(saveLocation, json, 'utf8')
+    .then(() => {
+      console.log('Perfil salvo!');
+    })
+    .catch(() => {
+      console.log('Erro!');
+    });
+
+  }
+  
+
   const { setAuthenticated } = useAuth();
   return (
     <ScrollView flex="1">
@@ -84,7 +102,7 @@ export function Profile()
         leftIcon={<Icon as={Feather} 
         name="file" 
         w={50} h={50}
-        onPress={() => JSON.stringify({usuario})} />}>
+        onPress={() => Exportar(usuario)} />}>
           Exportar dados
         </Button>
       </Box>
