@@ -10,12 +10,31 @@ import {
 } from "native-base";
 import Feather from "react-native-vector-icons/Feather";
 import Modal from "react-native-modal";
+import { Meta } from "../models/Meta";
+import { Category } from "../models/Category";
+import { Attribute } from "../models/Attribute";
+import { Step } from "../models/Step";
 
 export function MetaItem() {
+  const metaNoData: Meta = new Meta(
+    "Criar hábitos saudáveis",
+    "desejo criar hábitos saudáveis e me exercitar",
+    null,
+    [],
+    [new Category("Saudável", "red", [new Attribute("Forte", "award")])]
+  );
+
+  const metaWithData: Meta = new Meta(
+    "Criar hábitos saudáveis",
+    "desejo criar hábitos saudáveis e me exercitar",
+    new Date(),
+    [new Step("Acordar cedo", "Levantar cedo da cama", new Date())],
+    [new Category("Saudável", "red", [new Attribute("Forte", "award")])]
+  );
+
   const [expanded, setExpanded] = useState(false);
   const [groupValues, setGroupValues] = useState([]);
   const [optionsVisible, setOptionsVisible] = useState(false);
-  const modal = useRef(null);
 
   function handleOptions() {
     setOptionsVisible(true);
@@ -25,48 +44,46 @@ export function MetaItem() {
     setOptionsVisible(false);
   }
 
+  const modal = (
+    <Modal
+      style={{
+        justifyContent: "flex-end",
+        margin: 0,
+      }}
+      isVisible={optionsVisible}
+      onSwipeComplete={() => setOptionsVisible(false)}
+      swipeDirection={["down"]}
+    >
+      <VStack
+        bg="white"
+        h="200px"
+        borderTopLeftRadius="18px"
+        borderTopRightRadius="18px"
+      >
+        <VStack py="2" px="5" space="5">
+          <HStack justifyContent="center">
+            <Box bg="primary.400" w="80px" h="5px" borderRadius="full" />
+          </HStack>
+          <Pressable
+            _pressed={{ bg: "primary.200" }}
+            bg="primary.100"
+            p="2"
+            borderRadius="lg"
+            onPress={handleCompleteMeta}
+          >
+            <HStack space="3">
+              <Icon as={Feather} name="check" size="24px" color="primary.600" />
+              <Text>Completar meta</Text>
+            </HStack>
+          </Pressable>
+        </VStack>
+      </VStack>
+    </Modal>
+  );
+
   return (
     <Pressable onLongPress={handleOptions}>
-      <Modal
-        ref={modal}
-        style={{
-          justifyContent: "flex-end",
-          margin: 0,
-        }}
-        isVisible={optionsVisible}
-        onSwipeComplete={() => setOptionsVisible(false)}
-        swipeDirection={["down"]}
-      >
-        <VStack
-          bg="white"
-          h="200px"
-          borderTopLeftRadius="18px"
-          borderTopRightRadius="18px"
-        >
-          <VStack py="2" px="5" space="5">
-            <HStack justifyContent="center">
-              <Box bg="primary.400" w="80px" h="5px" borderRadius="full" />
-            </HStack>
-            <Pressable
-              _pressed={{ bg: "primary.200" }}
-              bg="primary.100"
-              p="2"
-              borderRadius="lg"
-              onPress={handleCompleteMeta}
-            >
-              <HStack space="3">
-                <Icon
-                  as={Feather}
-                  name="check"
-                  size="24px"
-                  color="primary.600"
-                />
-                <Text>Completar meta</Text>
-              </HStack>
-            </Pressable>
-          </VStack>
-        </VStack>
-      </Modal>
+      {modal}
       <VStack minH="135px" bg="white" borderRadius="lg" p="10px" space="13px">
         {/* Title and icons */}
         <HStack justifyContent="space-between">

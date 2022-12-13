@@ -1,10 +1,10 @@
-import { v4 as uuid } from "uuid";
+import uuid from "react-native-uuid";
 
 abstract class Entity {
   id: string;
 
   constructor() {
-    this.id = uuid();
+    this.id = uuid.v4() as string;
   }
 }
 
