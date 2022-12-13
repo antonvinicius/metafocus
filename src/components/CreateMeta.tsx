@@ -23,17 +23,22 @@ import { useModal } from "../hooks/useModal";
 import DateTimePicker, {
   DateTimePickerAndroid,
 } from "@react-native-community/datetimepicker";
-import SelectBox from "react-native-multi-selectbox-typescript";
-import { selectExampleData } from "../data/chartDataExample";
+import SelectBox, { Item } from "react-native-multi-selectbox-typescript";
+import { defaultCategories, selectExampleData } from "../data/chartDataExample";
 import { xorBy } from "lodash";
 import { theme } from "../global/theme";
 import { Step } from "./Step";
+import { Meta } from "../models/Meta";
+import { Category } from "../models/Category";
+import { Step as StepModel } from "../models/Step";
 
 export function CreateMeta() {
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
   const [goalDate, setGoalDate] = useState<Date | null>(null);
-  const [selectedTeams, setSelectedTeams] = useState<any>([]);
+  const [selectedCategories, setSelectedCategories] = useState<any>([]);
   const { setModalVisible, modalVisible } = useModal();
-  const [steps, setSteps] = useState<any[]>([]);
+  const [steps, setSteps] = useState<StepModel[]>([]);
 
   function handleCloseModal() {
     setModalVisible(false);
@@ -53,16 +58,32 @@ export function CreateMeta() {
     });
   }
 
+  function handleSave() {
+    const categories: Category[] = [];
+    defaultCategories.forEach((c) => {
+      selectedCategories.forEach((s: Item) => {
+        if (c.id === s.id) {
+          categories.push(c);
+        }
+      });
+    });
+
+    const newMeta = new Meta(title, description, goalDate, steps, categories);
+
+    console.info(newMeta);
+  }
+
   function showDatePicker() {
     showMode("date");
   }
 
   function onMultiChange() {
-    return (item: any) => setSelectedTeams(xorBy(selectedTeams, [item], "id"));
+    return (item: any) =>
+      setSelectedCategories(xorBy(selectedCategories, [item], "id"));
   }
 
   function addNewStep() {
-    setSteps((old) => [...old, 1]);
+    setSteps((old) => [...old, new StepModel("", "", null)]);
   }
 
   function removeStep() {
@@ -90,7 +111,12 @@ export function CreateMeta() {
           {/* Nome */}
           <FormControl isRequired>
             <FormControl.Label>Nome da meta</FormControl.Label>
-            <Input type="text" placeholder="Insira sua meta aqui 😅" />
+            <Input
+              type="text"
+              value={title}
+              onChangeText={setTitle}
+              placeholder="Insira sua meta aqui 😅"
+            />
             <FormControl.ErrorMessage
               leftIcon={<WarningOutlineIcon size="xs" />}
             >
@@ -103,6 +129,8 @@ export function CreateMeta() {
             <Box>
               <FormControl.Label>Descrição da meta</FormControl.Label>
               <TextArea
+                value={description}
+                onChangeText={setDescription}
                 numberOfLines={4}
                 placeholder="Insira o que você deseja alcançar com esta meta ☕"
                 autoCompleteType={undefined}
@@ -154,7 +182,7 @@ export function CreateMeta() {
               arrowIconColor={theme.colors.primary}
               hideInputFilter
               options={selectExampleData}
-              selectedValues={selectedTeams}
+              selectedValues={selectedCategories}
               onMultiSelect={onMultiChange()}
               onTapClose={onMultiChange()}
               isMulti
@@ -186,11 +214,15 @@ export function CreateMeta() {
               </HStack>
             </HStack>
             {/* Item das etapas */}
-            <FlatList data={steps} renderItem={() => <Step />} />
+            {steps.map((s) => (
+              <Step key={s.id} step={s} setSteps={setSteps} />
+            ))}
           </FormControl>
         </VStack>
       </ScrollView>
-      <Button bg="primary.700">Salvar</Button>
+      <Button onPress={handleSave} bg="primary.700">
+        Salvar
+      </Button>
     </Modal>
   );
 }

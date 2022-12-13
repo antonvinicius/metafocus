@@ -29,7 +29,7 @@ export const chartConfig = {
   useShadowColorFromDataset: false, // optional
 };
 
-const categories: Category[] = [
+export const defaultCategories: Category[] = [
   {
     id: uuid.v4() as string,
     attributes: [new Attribute("Forte", "strong")],
@@ -50,7 +50,7 @@ const categories: Category[] = [
   },
 ];
 
-export const selectExampleData: Item[] = categories.map((c) => ({
+export const selectExampleData: Item[] = defaultCategories.map((c) => ({
   id: c.id,
   item: c.title,
 }));

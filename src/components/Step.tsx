@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
   Button,
@@ -12,9 +12,17 @@ import {
 } from "native-base";
 import Feather from "react-native-vector-icons/Feather";
 import { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
+import { Step as StepModel } from "../models/Step";
 
-export function Step() {
+type StepProps = {
+  step: StepModel;
+  setSteps: React.Dispatch<React.SetStateAction<StepModel[]>>;
+};
+
+export function Step({ step, setSteps }: StepProps) {
   const [goalDate, setGoalDate] = useState<Date | null>(null);
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
 
   function onChange(event: any, selectedDate: any) {
     const currentDate = selectedDate;
@@ -34,27 +42,53 @@ export function Step() {
     showMode("date");
   }
 
+  useEffect(() => {
+    setSteps((old) => {
+      const currentStep = old.find((s) => s.id === step.id) as StepModel;
+      const clone = [...old];
+      const index = clone.indexOf(currentStep);
+
+      currentStep.title = title;
+      currentStep.description = description;
+      currentStep.goalDate = goalDate;
+
+      clone[index] = currentStep;
+      return clone;
+    });
+  }, [title, description, goalDate]);
+
   return (
     <>
       {/* Nome */}
-      <FormControl isRequired>
+      <FormControl isInvalid={title === ""} isRequired>
         <FormControl.Label>Nome da etapa</FormControl.Label>
-        <Input type="text" placeholder="Insira sua etapa aqui" />
+        <Input
+          value={title}
+          onChangeText={setTitle}
+          type="text"
+          placeholder="Insira sua etapa aqui"
+        />
         <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>
-          Pelo menos 3 caracteres são necessários.
+          Campo obrigatório.
         </FormControl.ErrorMessage>
       </FormControl>
 
       {/* Descrição */}
-      <FormControl isRequired>
+      <FormControl isInvalid={description === ""} isRequired>
         <Box>
           <FormControl.Label>Descrição da etapa</FormControl.Label>
           <TextArea
+            isInvalid={description === ""}
+            value={description}
+            onChangeText={setDescription}
             numberOfLines={4}
             placeholder="Insira o que você deseja alcançar com esta etapa"
             autoCompleteType={undefined}
           />
         </Box>
+        <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>
+          Campo obrigatório.
+        </FormControl.ErrorMessage>
       </FormControl>
 
       {/* Data final */}
