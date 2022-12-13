@@ -4,6 +4,7 @@ import {
   Divider,
   FlatList,
   FormControl,
+  Heading,
   HStack,
   Icon,
   IconButton,
@@ -74,9 +75,18 @@ export function CreateMeta() {
 
   return (
     <Modal isVisible={modalVisible} propagateSwipe>
-      <ScrollView>
-        <VStack space="10px" px="4" flex="1" bg="white" borderRadius="lg">
-          <Button onPress={handleCloseModal}>Fechar</Button>
+      <ScrollView bg="white">
+        <VStack space="10px" p="4" flex="1" bg="white" borderRadius="lg">
+          <HStack justifyContent="space-between">
+            <Heading>Criar nova meta</Heading>
+            <Icon
+              as={Feather}
+              name="x"
+              size="24px"
+              color="primary.400"
+              onPress={handleCloseModal}
+            />
+          </HStack>
           {/* Nome */}
           <FormControl isRequired>
             <FormControl.Label>Nome da meta</FormControl.Label>
@@ -180,6 +190,7 @@ export function CreateMeta() {
           </FormControl>
         </VStack>
       </ScrollView>
+      <Button bg="primary.700">Salvar</Button>
     </Modal>
   );
 }
