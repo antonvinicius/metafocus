@@ -23,6 +23,7 @@ import { findByKey } from "../utils/AvatarsUtil";
 
 export function Profile()
 {
+  let usuario = {name: "Vinicius", age: "22", smelly: true}
   const { setAuthenticated } = useAuth();
   return (
     <ScrollView flex="1">
@@ -79,7 +80,11 @@ export function Profile()
         />
       </VStack>
       <Box my="8" width="95%" alignSelf="center">
-        <Button leftIcon={<Icon as={Feather} name="file" w={50} h={50} />}>
+        <Button 
+        leftIcon={<Icon as={Feather} 
+        name="file" 
+        w={50} h={50}
+        onPress={() => JSON.stringify({usuario})} />}>
           Exportar dados
         </Button>
       </Box>
