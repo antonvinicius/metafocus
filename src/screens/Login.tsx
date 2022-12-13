@@ -60,6 +60,9 @@ export function Login({ navigation }: any) {
             <Button onPress={() => navigation.navigate("Register")}>
               Criar nova conta
             </Button>
+            <Button onPress={() => navigation.navigate("Register")}>
+              Importar dados de conta existente
+            </Button>
           </VStack>
           <Text mt={35} color="white" textAlign="center">
             ©MetaFocus

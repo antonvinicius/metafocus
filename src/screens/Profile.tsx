@@ -1,25 +1,28 @@
-import {
-  Box,
-  Button,
-  Heading,
-  Icon,
-  Image,
-  ScrollView,
-  VStack,
-} from "native-base";
+import
+  {
+    Box,
+    Button,
+    Heading,
+    Icon,
+    Image,
+    ScrollView,
+    VStack,
+  } from "native-base";
 import React from "react";
 import { Dimensions } from "react-native";
 import { LineChart, ProgressChart } from "react-native-chart-kit";
 import Feather from "react-native-vector-icons/Feather";
-import {
-  chartConfig,
-  lineChartData,
-  progressRingData,
-} from "../data/chartDataExample";
+import
+  {
+    chartConfig,
+    lineChartData,
+    progressRingData,
+  } from "../data/chartDataExample";
 import { useAuth } from "../hooks/useAuth";
 import { findByKey } from "../utils/AvatarsUtil";
 
-export function Profile() {
+export function Profile()
+{
   const { setAuthenticated } = useAuth();
   return (
     <ScrollView flex="1">
@@ -75,6 +78,11 @@ export function Profile() {
           hideLegend={false}
         />
       </VStack>
+      <Box my="8" width="95%" alignSelf="center">
+        <Button leftIcon={<Icon as={Feather} name="file" w={50} h={50} />}>
+          Exportar dados
+        </Button>
+      </Box>
     </ScrollView>
   );
 }
