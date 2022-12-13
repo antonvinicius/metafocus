@@ -65,12 +65,11 @@ export function CreateMeta() {
   }
 
   function removeStep() {
-    const stepsClone = [...steps];
-    const newSteps = stepsClone.pop();
-    // TODO: Resolve error when try to remove empty array
-    if (newSteps != undefined) {
-      setSteps(newSteps);
-    }
+    setSteps((old) => {
+      const clone = [...old];
+      clone.pop();
+      return clone;
+    });
   }
 
   return (
