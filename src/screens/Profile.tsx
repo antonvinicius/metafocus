@@ -23,7 +23,7 @@ import { findByKey } from "../utils/AvatarsUtil";
 
 export function Profile()
 {
-  let usuario = {name: "Vinicius", age: "22", smelly: true}
+  let usuario = {name: "Vinicius", age: "22", meta: "Exercitar de manha"}
   const { setAuthenticated } = useAuth();
   return (
     <ScrollView flex="1">
