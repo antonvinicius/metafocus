@@ -47,6 +47,7 @@ export function CreateMeta() {
   function onChange(event: any, selectedDate: any) {
     const currentDate = selectedDate;
     setGoalDate(currentDate);
+    // TODO: Set goal date not valid in the past
   }
 
   function showMode(currentMode: any) {
@@ -59,6 +60,7 @@ export function CreateMeta() {
   }
 
   function handleSave() {
+    // TODO: Handle validation
     const categories: Category[] = [];
     defaultCategories.forEach((c) => {
       selectedCategories.forEach((s: Item) => {
@@ -95,6 +97,7 @@ export function CreateMeta() {
   }
 
   return (
+    // TODO: Handle reset state when dismiss modal
     <Modal isVisible={modalVisible} propagateSwipe>
       <ScrollView bg="white">
         <VStack space="10px" p="4" flex="1" bg="white" borderRadius="lg">
