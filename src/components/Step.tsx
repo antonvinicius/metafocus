@@ -38,8 +38,8 @@ export function Step() {
     <>
       {/* Nome */}
       <FormControl isRequired>
-        <FormControl.Label>Nome da meta</FormControl.Label>
-        <Input type="text" placeholder="Insira sua meta aqui 😅" />
+        <FormControl.Label>Nome da etapa</FormControl.Label>
+        <Input type="text" placeholder="Insira sua etapa aqui" />
         <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>
           Pelo menos 3 caracteres são necessários.
         </FormControl.ErrorMessage>
@@ -48,10 +48,10 @@ export function Step() {
       {/* Descrição */}
       <FormControl isRequired>
         <Box>
-          <FormControl.Label>Descrição da meta</FormControl.Label>
+          <FormControl.Label>Descrição da etapa</FormControl.Label>
           <TextArea
             numberOfLines={4}
-            placeholder="Insira o que você deseja alcançar com esta meta ☕"
+            placeholder="Insira o que você deseja alcançar com esta etapa"
             autoCompleteType={undefined}
           />
         </Box>
