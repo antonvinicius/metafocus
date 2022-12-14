@@ -18,14 +18,17 @@ import {
 } from "../data/chartDataExample";
 import { useAuth } from "../hooks/useAuth";
 import { findByKey } from "../utils/AvatarsUtil";
+import RNFS from "react-native-fs";
 
 export function Profile() {
-  const RNFS = require("react-native-fs");
   let usuario = "whatever";
 
   function Exportar(data: string) {
+    console.log("oi");
     let json = JSON.stringify(data);
     let saveLocation = RNFS.DownloadDirectoryPath + "/usuario.json";
+
+    console.log(saveLocation);
 
     RNFS.writeFile(saveLocation, json, "utf8")
       .then(() => {
@@ -93,15 +96,8 @@ export function Profile() {
       </VStack>
       <Box my="8" width="95%" alignSelf="center">
         <Button
-          leftIcon={
-            <Icon
-              as={Feather}
-              name="file"
-              w={50}
-              h={50}
-              onPress={() => Exportar(usuario)}
-            />
-          }
+          onPress={() => Exportar(usuario)}
+          leftIcon={<Icon as={Feather} name="file" w={50} h={50} />}
         >
           Exportar dados
         </Button>
