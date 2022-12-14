@@ -2,10 +2,12 @@ import {
   Box,
   Button,
   Heading,
+  HStack,
   Icon,
   Image,
   ScrollView,
   VStack,
+  useToast,
 } from "native-base";
 import React from "react";
 import { Dimensions } from "react-native";
@@ -19,30 +21,33 @@ import {
 import { useAuth } from "../hooks/useAuth";
 import { findByKey } from "../utils/AvatarsUtil";
 import RNFS from "react-native-fs";
+import { User } from "../models/User";
+import { getCurrentTimeFileName } from "../utils/DataFormatter";
 
 export function Profile() {
-  let usuario = "whatever";
+  const { setAuthenticated } = useAuth();
+  const toast = useToast();
+  const user: User = new User("vinicius", "bald2");
 
-  function Exportar(data: string) {
-    console.log("oi");
-    let json = JSON.stringify(data);
-    let saveLocation = RNFS.DownloadDirectoryPath + "/usuario.json";
+  async function exportProfile() {
+    const json = JSON.stringify(user);
+    const saveLocation = `${
+      RNFS.DownloadDirectoryPath
+    }/${getCurrentTimeFileName(user.nickname)}`;
 
-    console.log(saveLocation);
-
-    RNFS.writeFile(saveLocation, json, "utf8")
-      .then(() => {
-        console.log("Perfil salvo!");
-      })
-      .catch(() => {
-        console.log("Erro!");
-      });
+    try {
+      await RNFS.writeFile(saveLocation, json, "utf8");
+      console.log(`Profile saved on location: ${saveLocation}`);
+      toast.show({ description: "Usuário salvo na pasta downloads!" });
+    } catch (error) {
+      console.error(`Error occured when trying to export data: ${error}`);
+      toast.show({ description: "Erro ao tentar salvar usuário" });
+    }
   }
 
-  const { setAuthenticated } = useAuth();
   return (
     <ScrollView flex="1">
-      <Box my="5" px="5">
+      <HStack justifyContent="center" p="2" space="2">
         <Button
           alignSelf={"flex-end"}
           leftIcon={<Icon as={Feather} name="power" w={50} h={50} />}
@@ -50,6 +55,14 @@ export function Profile() {
         >
           Sair
         </Button>
+        <Button
+          onPress={exportProfile}
+          leftIcon={<Icon as={Feather} name="file" w={50} h={50} />}
+        >
+          Exportar dados
+        </Button>
+      </HStack>
+      <Box my="5" px="5">
         <VStack
           space={3}
           alignSelf="center"
@@ -94,14 +107,6 @@ export function Profile() {
           hideLegend={false}
         />
       </VStack>
-      <Box my="8" width="95%" alignSelf="center">
-        <Button
-          onPress={() => Exportar(usuario)}
-          leftIcon={<Icon as={Feather} name="file" w={50} h={50} />}
-        >
-          Exportar dados
-        </Button>
-      </Box>
     </ScrollView>
   );
 }
