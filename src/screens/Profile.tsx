@@ -1,46 +1,40 @@
-import
-  {
-    Box,
-    Button,
-    Heading,
-    Icon,
-    Image,
-    ScrollView,
-    VStack,
-  } from "native-base";
+import {
+  Box,
+  Button,
+  Heading,
+  Icon,
+  Image,
+  ScrollView,
+  VStack,
+} from "native-base";
 import React from "react";
 import { Dimensions } from "react-native";
 import { LineChart, ProgressChart } from "react-native-chart-kit";
 import Feather from "react-native-vector-icons/Feather";
-import
-  {
-    chartConfig,
-    lineChartData,
-    progressRingData,
-  } from "../data/chartDataExample";
+import {
+  chartConfig,
+  lineChartData,
+  progressRingData,
+} from "../data/chartDataExample";
 import { useAuth } from "../hooks/useAuth";
 import { findByKey } from "../utils/AvatarsUtil";
 
-export function Profile()
-{
-  const RNFS = require('react-native-fs')
-  let usuario = 'whatever'
-  
-  function Exportar(data: string){
+export function Profile() {
+  const RNFS = require("react-native-fs");
+  let usuario = "whatever";
 
+  function Exportar(data: string) {
     let json = JSON.stringify(data);
-    let saveLocation = RNFS.DownloadDirectoryPath + '/usuario.json'
+    let saveLocation = RNFS.DownloadDirectoryPath + "/usuario.json";
 
-    RNFS.writeFile(saveLocation, json, 'utf8')
-    .then(() => {
-      console.log('Perfil salvo!');
-    })
-    .catch(() => {
-      console.log('Erro!');
-    });
-
+    RNFS.writeFile(saveLocation, json, "utf8")
+      .then(() => {
+        console.log("Perfil salvo!");
+      })
+      .catch(() => {
+        console.log("Erro!");
+      });
   }
-  
 
   const { setAuthenticated } = useAuth();
   return (
@@ -98,11 +92,17 @@ export function Profile()
         />
       </VStack>
       <Box my="8" width="95%" alignSelf="center">
-        <Button 
-        leftIcon={<Icon as={Feather} 
-        name="file" 
-        w={50} h={50}
-        onPress={() => Exportar(usuario)} />}>
+        <Button
+          leftIcon={
+            <Icon
+              as={Feather}
+              name="file"
+              w={50}
+              h={50}
+              onPress={() => Exportar(usuario)}
+            />
+          }
+        >
           Exportar dados
         </Button>
       </Box>
