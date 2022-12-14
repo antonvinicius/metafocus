@@ -14,7 +14,7 @@ import
 
 import Bg from "../../assets/bg.jpg";
 import { ImageBackground } from "react-native";
-import { result } from "lodash";
+import { User } from "../models/User";
 
 export function Import()
 {
@@ -23,7 +23,7 @@ export function Import()
     async function importProfile()
     {
         // get a list of files and directories in the main bundle
-        RNFS.readDir(RNFS.DownloadDirectoryPath) // On Android, use "RNFS.DocumentDirectoryPath" (MainBundlePath is not defined)
+        RNFS.readDir(RNFS.DownloadDirectoryPath)
             .then((result: { path: any; }[]) =>
             {
                 console.log('GOT RESULT', result);
@@ -45,7 +45,8 @@ export function Import()
             {
                 // log the file contents
                 console.log(contents);
-                JSON.parse(contents);
+                let json = JSON.parse(contents);
+                let existingUser: User = new User(json.nickname, json.avatar);
             })
             .catch((err: { message: any; code: any; }) =>
             {
