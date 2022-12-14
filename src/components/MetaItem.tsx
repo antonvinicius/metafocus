@@ -9,12 +9,14 @@ import {
   Text,
   VStack,
 } from "native-base";
+import { Alert } from "react-native";
 import Feather from "react-native-vector-icons/Feather";
 import Modal from "react-native-modal";
 import { Meta } from "../models/Meta";
 import { Category } from "../models/Category";
 import { Attribute } from "../models/Attribute";
 import { Step } from "../models/Step";
+import { EditMeta } from "./EditMeta";
 
 export function MetaItem() {
   const metaNoData: Meta = new Meta(
@@ -45,6 +47,7 @@ export function MetaItem() {
   );
 
   const [meta, setMeta] = useState(metaWithData);
+  const [editMetaModal, setEditMetaModal] = useState(false);
 
   const [expanded, setExpanded] = useState(false);
   const [groupValues, setGroupValues] = useState([]);
@@ -56,6 +59,27 @@ export function MetaItem() {
 
   function handleCompleteMeta() {
     setOptionsVisible(false);
+  }
+
+  function handleEdit() {
+    setEditMetaModal(true);
+  }
+
+  function handleDelete() {
+    Alert.alert("Tem certeza?", "Tem certeza que quer deletar a meta?", [
+      {
+        text: "Cancelar",
+        onPress: () => {
+          console.log("Alert cancelled");
+        },
+      },
+      {
+        text: "Sim",
+        onPress: () => {
+          // TODO: Add delete logic
+        },
+      },
+    ]);
   }
 
   const modal = (
@@ -97,6 +121,11 @@ export function MetaItem() {
 
   return (
     <Pressable onLongPress={handleOptions}>
+      <EditMeta
+        meta={meta}
+        modalVisible={editMetaModal}
+        setModalVisible={setEditMetaModal}
+      />
       {modal}
       <VStack
         minH="135px"
@@ -112,8 +141,20 @@ export function MetaItem() {
             <Text maxW="180px">{meta.description}</Text>
           </VStack>
           <HStack space={2}>
-            <Icon as={Feather} color="black" name="edit-2" size="24px" />
-            <Icon as={Feather} color="black" name="trash" size="24px" />
+            <Icon
+              onPress={handleEdit}
+              as={Feather}
+              color="black"
+              name="edit-2"
+              size="24px"
+            />
+            <Icon
+              onPress={handleDelete}
+              as={Feather}
+              color="black"
+              name="trash"
+              size="24px"
+            />
           </HStack>
         </HStack>
 

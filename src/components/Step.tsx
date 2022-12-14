@@ -20,9 +20,9 @@ type StepProps = {
 };
 
 export function Step({ step, setSteps }: StepProps) {
-  const [goalDate, setGoalDate] = useState<Date | null>(null);
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
+  const [goalDate, setGoalDate] = useState<Date | null>(step.goalDate);
+  const [title, setTitle] = useState(step.title);
+  const [description, setDescription] = useState(step.description);
 
   function onChange(_: any, selectedDate: any) {
     const currentDate = selectedDate;
