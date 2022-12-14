@@ -44,10 +44,21 @@ export function CreateMeta() {
     setModalVisible(false);
   }
 
-  function onChange(event: any, selectedDate: any) {
+  function onChange(_: any, selectedDate: any) {
     const currentDate = selectedDate;
-    setGoalDate(currentDate);
-    // TODO: Set goal date not valid in the past
+    const dateToSave = new Date(currentDate);
+    dateToSave.setHours(0);
+    dateToSave.setMinutes(0);
+    dateToSave.setSeconds(0);
+    dateToSave.setMilliseconds(0);
+
+    const nowDate = new Date();
+    nowDate.setHours(0);
+    nowDate.setMinutes(0);
+    nowDate.setSeconds(0);
+    nowDate.setMilliseconds(0);
+
+    if (dateToSave > nowDate) setGoalDate(dateToSave);
   }
 
   function showMode(currentMode: any) {
