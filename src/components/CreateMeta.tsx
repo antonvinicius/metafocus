@@ -13,10 +13,12 @@ import {
   Stack,
   Text,
   TextArea,
+  useToast,
   VStack,
   WarningOutlineIcon,
 } from "native-base";
 import React, { useState } from "react";
+import { ToastAndroid } from "react-native";
 import Modal from "react-native-modal";
 import Feather from "react-native-vector-icons/Feather";
 import { useModal } from "../hooks/useModal";
@@ -71,7 +73,19 @@ export function CreateMeta() {
   }
 
   function handleSave() {
-    if (!title || !description || selectedCategories.length === 0) return;
+    const anyStepInvalid = steps.find(
+      (s) => s.title === "" || s.description === ""
+    );
+
+    if (
+      !title ||
+      !description ||
+      selectedCategories.length === 0 ||
+      anyStepInvalid
+    ) {
+      ToastAndroid.show("Campos inválidos", ToastAndroid.LONG);
+      return;
+    }
 
     const categories: Category[] = [];
     defaultCategories.forEach((c) => {
