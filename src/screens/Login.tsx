@@ -17,7 +17,6 @@ import { avatars } from "../utils/AvatarsUtil";
 
 export function Login({ navigation }: any) {
   const avatarExample = avatars;
-
   return (
     <Box flex="1">
       <ImageBackground resizeMode="cover" source={Bg} style={{ flex: 1 }}>
@@ -60,8 +59,8 @@ export function Login({ navigation }: any) {
             <Button onPress={() => navigation.navigate("Register")}>
               Criar nova conta
             </Button>
-            <Button onPress={() => navigation.navigate("Register")}>
-              Importar dados de conta existente
+            <Button onPress={() => navigation.navigate("Import")}>
+              Conta existente
             </Button>
           </VStack>
           <Text mt={35} color="white" textAlign="center">
