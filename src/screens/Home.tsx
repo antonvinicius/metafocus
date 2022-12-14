@@ -32,11 +32,11 @@ export function Home() {
       {/* Header */}
       <VStack space={2}>
         <HStack alignItems="center" justifyContent="space-between">
-          <Heading>Olá, Vinícius</Heading>
+          <Heading>Olá, {dummyUser.nickname}</Heading>
           <Image
             borderRadius="full"
             backgroundColor="primary.400"
-            source={findByKey("man1").source}
+            source={findByKey(dummyUser.avatar).source}
             w="90px"
             h="90px"
             alt="avatar"

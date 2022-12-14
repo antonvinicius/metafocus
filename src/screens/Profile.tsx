@@ -23,11 +23,12 @@ import { findByKey } from "../utils/AvatarsUtil";
 import RNFS from "react-native-fs";
 import { User } from "../models/User";
 import { getCurrentTimeFileName } from "../utils/DataFormatter";
+import { dummyUser } from "../data/dummy";
 
 export function Profile() {
   const { setAuthenticated } = useAuth();
   const toast = useToast();
-  const user: User = new User("vinicius", "bald2");
+  const user = dummyUser;
 
   async function exportProfile() {
     const json = JSON.stringify(user);
@@ -75,12 +76,12 @@ export function Profile() {
           <Image
             borderRadius="full"
             backgroundColor="primary.400"
-            source={findByKey("man1").source}
+            source={findByKey(user.avatar).source}
             w="90px"
             h="90px"
             alt="avatar"
           />
-          <Heading>Vinícius</Heading>
+          <Heading>{user.nickname}</Heading>
         </VStack>
         {/* <Results /> */}
       </Box>
