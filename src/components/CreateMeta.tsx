@@ -60,7 +60,8 @@ export function CreateMeta() {
   }
 
   function handleSave() {
-    // TODO: Handle validation
+    if (!title || !description || selectedCategories.length === 0) return;
+
     const categories: Category[] = [];
     defaultCategories.forEach((c) => {
       selectedCategories.forEach((s: Item) => {
