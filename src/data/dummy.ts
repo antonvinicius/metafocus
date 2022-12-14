@@ -47,6 +47,16 @@ const dummyCategories: Category[] = [
   ]),
 ];
 
+const finishedMeta = new Meta(
+  "Zerar jogos",
+  "Jogar com os amigos e zerar jogos legais",
+  null,
+  [],
+  [dummyCategories[2]]
+);
+
+finishedMeta.markAsDone();
+
 const dummyMetas: Meta[] = [
   new Meta(
     "Ir para a academia durante 1 semana",
@@ -72,6 +82,7 @@ const dummyMetas: Meta[] = [
     ],
     [dummyCategories[1], dummyCategories[2]]
   ),
+  finishedMeta,
 ];
 
 const dummyUser = new User("vinicius", "bald2");

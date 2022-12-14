@@ -18,35 +18,11 @@ import { Attribute } from "../models/Attribute";
 import { Step } from "../models/Step";
 import { EditMeta } from "./EditMeta";
 
-export function MetaItem() {
-  const metaNoData: Meta = new Meta(
-    "Criar hábitos saudáveis",
-    "desejo criar hábitos saudáveis e me exercitar",
-    null,
-    [],
-    [new Category("Saudável", "red", [new Attribute("Forte", "award")])]
-  );
+type MetaItemProps = {
+  meta: Meta;
+};
 
-  const metaWithData: Meta = new Meta(
-    "Criar hábitos saudáveis",
-    "desejo criar hábitos saudáveis e me exercitar",
-    new Date(),
-    [
-      new Step("Acordar cedo", "Levantar cedo da cama", new Date()),
-      new Step("Acordar cedo", "Levantar cedo da cama", new Date()),
-      new Step("Acordar cedo", "Levantar cedo da cama", new Date()),
-    ],
-    [
-      new Category("Saudável", "red", [new Attribute("Forte", "award")]),
-      new Category("Saudável", "red", [new Attribute("Forte", "award")]),
-      new Category("Saudável", "red", [new Attribute("Forte", "award")]),
-      new Category("Saudável", "red", [new Attribute("Forte", "award")]),
-      new Category("Saudável", "red", [new Attribute("Forte", "award")]),
-      new Category("Saudável", "red", [new Attribute("Forte", "award")]),
-    ]
-  );
-
-  const [meta, setMeta] = useState(metaWithData);
+export function MetaItem({ meta }: MetaItemProps) {
   const [editMetaModal, setEditMetaModal] = useState(false);
 
   const [expanded, setExpanded] = useState(false);
