@@ -1,4 +1,4 @@
-import { defaultUserAttributes } from "../data/userAttributesRepository";
+import { dummyUserAttributes } from "../data/dummy";
 import { Entity } from "./Entity";
 import { Meta } from "./Meta";
 import { UserAttribute } from "./UserAttribute";
@@ -9,7 +9,7 @@ class User extends Entity {
 
   constructor(public nickname: string, public avatar: string) {
     super();
-    this.attributes = defaultUserAttributes;
+    this.attributes = dummyUserAttributes;
     this.metas = [];
   }
 }
