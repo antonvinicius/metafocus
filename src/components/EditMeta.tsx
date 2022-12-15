@@ -167,11 +167,18 @@ export function EditMeta({
     showMode("date");
   }
 
+  function onClose(){
+    return (item: any) => {      
+      setSelectedCategories(xorBy(selectedCategories, [item], "id"));
+    }
+  }
+
   function onMultiChange() {
     return (item: any) => {
-      console.log("item: ", item);
-      const clone = [...selectedCategories, item];
-      return setSelectedCategories(clone);
+      // console.log("item: ", item);
+      // const clone = [...selectedCategories, item];
+      // return setSelectedCategories(clone);
+      setSelectedCategories(xorBy(selectedCategories, [item], "id"));
     };
   }
 
@@ -282,7 +289,7 @@ export function EditMeta({
               options={selectExampleData}
               selectedValues={selectedCategories}
               onMultiSelect={onMultiChange()}
-              onTapClose={onMultiChange()}
+              onTapClose={onClose()}
               isMulti
             />
           </FormControl>
