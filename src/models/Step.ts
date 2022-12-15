@@ -1,13 +1,5 @@
 import { BaseMeta } from "./BaseMeta";
 
-class Step extends BaseMeta {
-  constructor(
-    public title: string,
-    public description: string,
-    public goalDate: Date | null
-  ) {
-    super(title, description, goalDate);
-  }
-}
+class Step extends BaseMeta {}
 
 export { Step };
