@@ -17,7 +17,7 @@ import {
   VStack,
   WarningOutlineIcon,
 } from "native-base";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ToastAndroid } from "react-native";
 import Modal from "react-native-modal";
 import Feather from "react-native-vector-icons/Feather";
@@ -26,14 +26,13 @@ import DateTimePicker, {
   DateTimePickerAndroid,
 } from "@react-native-community/datetimepicker";
 import SelectBox, { Item } from "react-native-multi-selectbox-typescript";
-import { selectExampleData } from "../data/chartDataExample";
 import { xorBy } from "lodash";
 import { theme } from "../global/theme";
 import { Step } from "./Step";
 import { Meta } from "../models/Meta";
 import { Category } from "../models/Category";
 import { Step as StepModel } from "../models/Step";
-import { dummyCategories } from "../data/dummy";
+import { getRealm } from "../realm/MetafocusDatabase";
 
 export function CreateMeta() {
   const [title, setTitle] = useState("");
@@ -42,9 +41,21 @@ export function CreateMeta() {
   const [selectedCategories, setSelectedCategories] = useState<any>([]);
   const { setModalVisible, modalVisible } = useModal();
   const [steps, setSteps] = useState<StepModel[]>([]);
+  const [selectExampleData, setSelectExampleData] = useState<Item[]>([]);
 
   function handleCloseModal() {
     setModalVisible(false);
+  }
+
+  async function getSelectData() {
+    const realm = await getRealm();
+    const categories = realm.objects("CategorySchema") as unknown as Category[];
+    setSelectExampleData(
+      categories.map((c) => ({
+        id: c.id,
+        item: c.title,
+      }))
+    );
   }
 
   function onChange(_: any, selectedDate: any) {
@@ -73,7 +84,7 @@ export function CreateMeta() {
     });
   }
 
-  function handleSave() {
+  async function handleSave() {
     const anyStepInvalid = steps.find(
       (s) => s.title === "" || s.description === ""
     );
@@ -89,7 +100,11 @@ export function CreateMeta() {
     }
 
     const categories: Category[] = [];
-    dummyCategories.forEach((c) => {
+    const realm = await getRealm();
+    const dataCategories = realm.objects(
+      "CategorySchema"
+    ) as unknown as Category[];
+    dataCategories.forEach((c) => {
       selectedCategories.forEach((s: Item) => {
         if (c.id === s.id) {
           categories.push(c);
@@ -120,6 +135,10 @@ export function CreateMeta() {
       return clone;
     });
   }
+
+  useEffect(() => {
+    getSelectData();
+  }, []);
 
   return (
     // TODO: Handle reset state when dismiss modal

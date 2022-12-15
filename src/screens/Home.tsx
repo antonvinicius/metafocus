@@ -12,7 +12,6 @@ import React, { useEffect, useState } from "react";
 import { Pressable } from "react-native";
 import { CreateMeta } from "../components/CreateMeta";
 import { MetaItem } from "../components/MetaItem";
-import { dummyUser } from "../data/dummy";
 import { useAuth } from "../hooks/useAuth";
 import { findByKey } from "../utils/AvatarsUtil";
 
@@ -22,7 +21,8 @@ enum MetaState {
 }
 
 export function Home() {
-  const metas = dummyUser.metas;
+  const { user } = useAuth();
+  const metas = user.metas;
 
   const [metaState, setMetaState] = useState(MetaState.progress);
 
@@ -32,11 +32,11 @@ export function Home() {
       {/* Header */}
       <VStack space={2}>
         <HStack alignItems="center" justifyContent="space-between">
-          <Heading>Olá, {dummyUser.nickname}</Heading>
+          <Heading>Olá, {user.nickname}</Heading>
           <Image
             borderRadius="full"
             backgroundColor="primary.400"
-            source={findByKey(dummyUser.avatar).source}
+            source={findByKey(user.avatar).source}
             w="90px"
             h="90px"
             alt="avatar"

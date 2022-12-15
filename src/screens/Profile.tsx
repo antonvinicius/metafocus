@@ -15,21 +15,22 @@ import { LineChart, ProgressChart } from "react-native-chart-kit";
 import Feather from "react-native-vector-icons/Feather";
 import {
   chartConfig,
-  lineChartData,
-  progressRingData,
+  getLineChartData,
+  getProgressChartData,
   ringChartConfig,
 } from "../data/chartDataExample";
 import { useAuth } from "../hooks/useAuth";
 import { findByKey } from "../utils/AvatarsUtil";
 import RNFS from "react-native-fs";
-import { User } from "../models/User";
 import { getCurrentTimeFileName } from "../utils/DataFormatter";
-import { dummyUser } from "../data/dummy";
 
 export function Profile() {
   const { logout } = useAuth();
   const toast = useToast();
-  const user = dummyUser;
+  const { user } = useAuth();
+
+  const lineChartData = getLineChartData(user);
+  const progressRingData = getProgressChartData(user);
 
   async function exportProfile() {
     const json = JSON.stringify(user);

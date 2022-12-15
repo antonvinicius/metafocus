@@ -25,6 +25,7 @@ export function AuthProvider({ children }: any) {
   function authenticate(user: User) {
     setAuthenticated(true);
     setUser(user);
+    console.log(JSON.stringify(user, null, 2));
   }
 
   function logout() {
