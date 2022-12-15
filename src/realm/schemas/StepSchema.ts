@@ -4,10 +4,10 @@ export const StepSchema = {
     id: "string",
     title: "string",
     description: "string",
-    goalDate: "date",
+    goalDate: "date?",
     createdAt: "date",
     finished: "bool",
-    finishDate: "date",
+    finishDate: "date?",
   },
   primaryKey: "id",
 };

@@ -33,8 +33,11 @@ import { Meta } from "../models/Meta";
 import { Category } from "../models/Category";
 import { Step as StepModel } from "../models/Step";
 import { getRealm } from "../realm/MetafocusDatabase";
+import { useAuth } from "../hooks/useAuth";
+import { User } from "../models/User";
 
 export function CreateMeta() {
+  const { user, updateUser } = useAuth();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [goalDate, setGoalDate] = useState<Date | null>(null);
@@ -113,6 +116,16 @@ export function CreateMeta() {
     });
 
     const newMeta = new Meta(title, description, goalDate, steps, categories);
+
+    realm.write(() => {
+      const userToUpdate = realm.objectForPrimaryKey(
+        "UserSchema",
+        user.id
+      ) as unknown as User;
+      userToUpdate.metas.push(newMeta);
+      updateUser();
+      handleCloseModal();
+    });
   }
 
   function showDatePicker() {
