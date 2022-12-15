@@ -17,6 +17,8 @@ class UserAttribute extends Entity {
     if (this.current >= Attribute.total) {
       this.current = 0;
       this.level++;
+    } else {
+      this.current++;
     }
   }
 }

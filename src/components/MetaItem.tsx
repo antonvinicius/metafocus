@@ -19,13 +19,16 @@ import { Step } from "../models/Step";
 import { EditMeta } from "./EditMeta";
 import { getRealm } from "../realm/MetafocusDatabase";
 import { useAuth } from "../hooks/useAuth";
+import { User } from "../models/User";
+import { UserAttribute } from "../models/UserAttribute";
+import { ToastAndroid } from "react-native";
 
 type MetaItemProps = {
   meta: Meta;
 };
 
 export function MetaItem({ meta }: MetaItemProps) {
-  const { updateUser } = useAuth();
+  const { updateUser, user } = useAuth();
   const [editMetaModal, setEditMetaModal] = useState(false);
 
   const [expanded, setExpanded] = useState(false);
@@ -33,40 +36,131 @@ export function MetaItem({ meta }: MetaItemProps) {
   const [optionsVisible, setOptionsVisible] = useState(false);
 
   function handleOptions() {
-    setOptionsVisible(true);
+    if (!meta.finished) {
+      setOptionsVisible(true);
+    }
   }
 
-  function handleCompleteMeta() {
+  async function handleCompleteMeta() {
     setOptionsVisible(false);
+    const realm = await getRealm();
+    const metaModel = realm.objectForPrimaryKey(
+      "MetaSchema",
+      meta.id
+    ) as unknown as Meta;
+    const userModel = realm.objectForPrimaryKey(
+      "UserSchema",
+      user.id
+    ) as unknown as User;
+    realm.write(() => {
+      const userAttributes: UserAttribute[] = [];
+      meta.categories.forEach((mc) => {
+        mc.attributes.forEach((ca) => {
+          userModel.attributes.forEach((ua) => {
+            if (ua.attribute.id === ca.id) {
+              userAttributes.push(ua);
+            }
+          });
+        });
+      });
+      userAttributes.forEach((a) => {
+        if (a.current >= Attribute.total) {
+          a.current = 0;
+          a.level++;
+        } else {
+          a.current += 5;
+        }
+      });
+      let message = "";
+      userAttributes.forEach((u) => {
+        message += `${u.attribute.title} `;
+      });
+      ToastAndroid.show(`Ganhou 5 pontos em ${message}`, ToastAndroid.SHORT);
+
+      metaModel.finished = true;
+      metaModel.finishDate = new Date();
+      updateUser();
+    });
   }
 
   function handleEdit() {
-    setEditMetaModal(true);
+    if (!meta.finished) {
+      setEditMetaModal(true);
+    }
+  }
+
+  async function updateStepState(step: Step) {
+    const realm = await getRealm();
+    const stepModel = realm.objectForPrimaryKey(
+      "StepSchema",
+      step.id
+    ) as unknown as Step;
+    const userModel = realm.objectForPrimaryKey(
+      "UserSchema",
+      user.id
+    ) as unknown as User;
+    realm.write(() => {
+      const userAttributes: UserAttribute[] = [];
+      meta.categories.forEach((mc) => {
+        mc.attributes.forEach((ca) => {
+          userModel.attributes.forEach((ua) => {
+            if (ua.attribute.id === ca.id) {
+              userAttributes.push(ua);
+            }
+          });
+        });
+      });
+      userAttributes.forEach((a) => {
+        if (!step.finished) {
+          if (a.current >= Attribute.total) {
+            a.current = 0;
+            a.level++;
+          } else {
+            a.current++;
+          }
+        } else {
+          a.current--;
+        }
+      });
+
+      if (!step.finished) {
+        let message = "";
+        userAttributes.forEach((u) => {
+          message += `${u.attribute.title} `;
+        });
+        ToastAndroid.show(`Ganhou 1 ponto em ${message}`, ToastAndroid.SHORT);
+      }
+      stepModel.finished = !step.finished;
+      stepModel.finishDate = step.finished ? null : new Date();
+      updateUser();
+    });
   }
 
   function handleDelete() {
-    Alert.alert("Tem certeza?", "Tem certeza que quer deletar a meta?", [
-      {
-        text: "Cancelar",
-        onPress: () => {
-          console.log("Alert cancelled");
+    if (!meta.finished) {
+      Alert.alert("Tem certeza?", "Tem certeza que quer deletar a meta?", [
+        {
+          text: "Cancelar",
+          onPress: () => {
+            console.log("Alert cancelled");
+          },
         },
-      },
-      {
-        text: "Sim",
-        onPress: async () => {
-          const realm = await getRealm();
-          realm.write(() => {
-            const metaToDelete = realm.objectForPrimaryKey(
-              "MetaSchema",
-              meta.id
-            );
-            realm.delete(metaToDelete);
-            updateUser();
-          });
+        {
+          text: "Sim",
+          onPress: async () => {
+            const realm = await getRealm();
+            realm.write(() => {
+              const metaToDelete = realm.objectForPrimaryKey(
+                "MetaSchema",
+                meta.id
+              );
+              realm.delete(metaToDelete);
+              updateUser();
+            });
+          },
         },
-      },
-    ]);
+      ]);
+    }
   }
 
   const modal = (
@@ -218,12 +312,18 @@ export function MetaItem({ meta }: MetaItemProps) {
                 renderItem={({ item }) => (
                   <HStack py="15px" justifyContent={"space-between"}>
                     <HStack space="10px">
-                      <Checkbox.Group
-                        onChange={setGroupValues}
-                        value={groupValues}
+                      <Checkbox
+                        isDisabled={meta.finished}
+                        onTouchEnd={() => {
+                          if (!meta.finished) {
+                            updateStepState(item);
+                          }
+                        }}
+                        value={item.id}
+                        isChecked={item.finished}
                       >
-                        <Checkbox value={item.id}>{item.title}</Checkbox>
-                      </Checkbox.Group>
+                        {item.title}
+                      </Checkbox>
                     </HStack>
                   </HStack>
                 )}

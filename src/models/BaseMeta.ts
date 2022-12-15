@@ -20,6 +20,11 @@ abstract class BaseMeta extends Entity {
     this.finished = true;
     this.finishDate = new Date();
   }
+
+  markAsUndone() {
+    this.finished = false;
+    this.finishDate = null;
+  }
 }
 
 export { BaseMeta };
