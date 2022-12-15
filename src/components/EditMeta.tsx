@@ -54,11 +54,24 @@ export function EditMeta({
   const [steps, setSteps] = useState<StepModel[]>(meta.steps);
   const [selectExampleData, setSelectExampleData] = useState<Item[]>([]);
 
+  async function setPreDefinedCategories() {
+    const realm = await getRealm();
+    const metaModel = realm.objectForPrimaryKey(
+      "MetaSchema",
+      meta.id
+    ) as unknown as Meta;
+    const selectedCat = metaModel.categories.map((c) => ({
+      id: c.id,
+      item: c.title,
+    }));
+    setSelectedCategories(selectedCat);
+  }
+
   function resetState() {
     setTitle(meta.title);
     setDescription(meta.description);
     setGoalDate(meta.goalDate);
-    setSelectedCategories([]);
+    setPreDefinedCategories();
     setSteps(meta.steps);
   }
 
@@ -155,8 +168,11 @@ export function EditMeta({
   }
 
   function onMultiChange() {
-    return (item: any) =>
-      setSelectedCategories(xorBy(selectedCategories, [item], "id"));
+    return (item: any) => {
+      console.log("item: ", item);
+      const clone = [...selectedCategories, item];
+      return setSelectedCategories(clone);
+    };
   }
 
   function addNewStep() {
@@ -173,6 +189,7 @@ export function EditMeta({
 
   useEffect(() => {
     getSelectData();
+    setPreDefinedCategories();
   }, []);
 
   return (
