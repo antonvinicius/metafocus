@@ -17,12 +17,15 @@ import { Category } from "../models/Category";
 import { Attribute } from "../models/Attribute";
 import { Step } from "../models/Step";
 import { EditMeta } from "./EditMeta";
+import { getRealm } from "../realm/MetafocusDatabase";
+import { useAuth } from "../hooks/useAuth";
 
 type MetaItemProps = {
   meta: Meta;
 };
 
 export function MetaItem({ meta }: MetaItemProps) {
+  const { updateUser } = useAuth();
   const [editMetaModal, setEditMetaModal] = useState(false);
 
   const [expanded, setExpanded] = useState(false);
@@ -51,8 +54,16 @@ export function MetaItem({ meta }: MetaItemProps) {
       },
       {
         text: "Sim",
-        onPress: () => {
-          // TODO: Add delete logic
+        onPress: async () => {
+          const realm = await getRealm();
+          realm.write(() => {
+            const metaToDelete = realm.objectForPrimaryKey(
+              "MetaSchema",
+              meta.id
+            );
+            realm.delete(metaToDelete);
+            updateUser();
+          });
         },
       },
     ]);
