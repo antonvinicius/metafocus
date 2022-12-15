@@ -33,6 +33,7 @@ import { Meta } from "../models/Meta";
 import { Category } from "../models/Category";
 import { Step as StepModel } from "../models/Step";
 import { getRealm } from "../realm/MetafocusDatabase";
+import { useAuth } from "../hooks/useAuth";
 
 type EditMetaProps = {
   meta: Meta;
@@ -45,6 +46,7 @@ export function EditMeta({
   modalVisible,
   setModalVisible,
 }: EditMetaProps) {
+  const { updateUser } = useAuth();
   const [title, setTitle] = useState(meta.title);
   const [description, setDescription] = useState(meta.description);
   const [goalDate, setGoalDate] = useState<Date | null>(meta.goalDate);
@@ -123,6 +125,20 @@ export function EditMeta({
     });
 
     const newMeta = new Meta(title, description, goalDate, steps, categories);
+
+    realm.write(() => {
+      const metaModel = realm.objectForPrimaryKey(
+        "MetaSchema",
+        meta.id
+      ) as unknown as Meta;
+      metaModel.title = newMeta.title;
+      metaModel.description = newMeta.description;
+      metaModel.goalDate = newMeta.goalDate;
+      metaModel.steps = newMeta.steps;
+      metaModel.categories = newMeta.categories;
+    });
+    updateUser();
+    handleCloseModal();
   }
 
   function showDatePicker() {
