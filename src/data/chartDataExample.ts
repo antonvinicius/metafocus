@@ -126,7 +126,6 @@ export const lineChartData = {
 const userAttributes = dummyUser.attributes;
 const labels = userAttributes.map((a) => a.attribute.title);
 const data = userAttributes.map((a) => a.current / 100);
-console.log(data);
 
 export const progressRingData = {
   labels: labels, // optional

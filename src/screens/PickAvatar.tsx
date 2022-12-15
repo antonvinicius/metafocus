@@ -20,7 +20,6 @@ export function PickAvatar({ route, navigation }: any) {
 
   async function handleSaveUser(avatar: string) {
     const user = new User(nickname, avatar);
-    console.log(user);
 
     const realm = await getRealm();
 

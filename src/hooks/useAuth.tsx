@@ -7,6 +7,7 @@ import {
   useState,
 } from "react";
 import { User } from "../models/User";
+import { seed } from "../realm/seed/seedData";
 
 interface AuthContextProps {
   authenticated: boolean;
@@ -29,6 +30,10 @@ export function AuthProvider({ children }: any) {
   function logout() {
     setAuthenticated(false);
   }
+
+  useEffect(() => {
+    seed();
+  }, []);
 
   return (
     <>

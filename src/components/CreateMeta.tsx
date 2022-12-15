@@ -98,8 +98,6 @@ export function CreateMeta() {
     });
 
     const newMeta = new Meta(title, description, goalDate, steps, categories);
-
-    console.info(newMeta);
   }
 
   function showDatePicker() {
