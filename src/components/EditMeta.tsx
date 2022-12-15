@@ -167,12 +167,6 @@ export function EditMeta({
     showMode("date");
   }
 
-  function onClose(){
-    return (item: any) => {      
-      setSelectedCategories(xorBy(selectedCategories, [item], "id"));
-    }
-  }
-
   function onMultiChange() {
     return (item: any) => {
       // console.log("item: ", item);
@@ -289,7 +283,7 @@ export function EditMeta({
               options={selectExampleData}
               selectedValues={selectedCategories}
               onMultiSelect={onMultiChange()}
-              onTapClose={onClose()}
+              onTapClose={onMultiChange()}
               isMulti
             />
           </FormControl>
