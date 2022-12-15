@@ -71,7 +71,7 @@ export function Profile() {
           alignSelf="center"
           justifyContent="center"
           alignItems="center"
-          w="100px"
+          w="100%"
           h="100px"
           rounded="full"
         >
@@ -83,7 +83,7 @@ export function Profile() {
             h="90px"
             alt="avatar"
           />
-          <Heading>{user.nickname}</Heading>
+          <Heading textAlign="center">{user.nickname}</Heading>
         </VStack>
         {/* <Results /> */}
       </Box>
