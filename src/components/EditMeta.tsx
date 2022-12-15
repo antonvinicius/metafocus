@@ -54,8 +54,18 @@ export function EditMeta({
   const [steps, setSteps] = useState<StepModel[]>(meta.steps);
   const [selectExampleData, setSelectExampleData] = useState<Item[]>([]);
 
+  function resetState() {
+    setTitle("");
+    setDescription("");
+    setGoalDate(null);
+    setSelectedCategories([]);
+    setSteps([]);
+    setSelectExampleData([]);
+  }
+
   function handleCloseModal() {
     setModalVisible(false);
+    resetState();
   }
 
   async function getSelectData() {
@@ -167,7 +177,6 @@ export function EditMeta({
   }, []);
 
   return (
-    // TODO: Handle reset state when dismiss modal
     <Modal isVisible={modalVisible} propagateSwipe>
       <ScrollView bg="white">
         <VStack space="10px" p="4" flex="1" bg="white" borderRadius="lg">

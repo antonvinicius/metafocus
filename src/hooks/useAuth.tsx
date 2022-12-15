@@ -44,6 +44,7 @@ export function AuthProvider({ children }: any) {
   }
 
   useEffect(() => {
+    // TODO: Check if already logged in
     seed();
   }, []);
 
