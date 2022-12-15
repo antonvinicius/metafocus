@@ -58,7 +58,6 @@ export function Import() {
     try {
       if (result) {
         const file = result as DocumentPickerResponse[];
-        console.log();
         if (file[0].fileCopyUri) {
           const fileContent = await RNFS.readFile(file[0].fileCopyUri);
           const user: User = JSON.parse(fileContent);

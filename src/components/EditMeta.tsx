@@ -26,13 +26,14 @@ import DateTimePicker, {
   DateTimePickerAndroid,
 } from "@react-native-community/datetimepicker";
 import SelectBox, { Item } from "react-native-multi-selectbox-typescript";
-import { defaultCategories, selectExampleData } from "../data/chartDataExample";
+import { selectExampleData } from "../data/chartDataExample";
 import { xorBy } from "lodash";
 import { theme } from "../global/theme";
 import { Step } from "./Step";
 import { Meta } from "../models/Meta";
 import { Category } from "../models/Category";
 import { Step as StepModel } from "../models/Step";
+import { dummyCategories } from "../data/dummy";
 
 type EditMetaProps = {
   meta: Meta;
@@ -45,7 +46,6 @@ export function EditMeta({
   modalVisible,
   setModalVisible,
 }: EditMetaProps) {
-  console.log(meta.steps);
   const [title, setTitle] = useState(meta.title);
   const [description, setDescription] = useState(meta.description);
   const [goalDate, setGoalDate] = useState<Date | null>(meta.goalDate);
@@ -98,7 +98,7 @@ export function EditMeta({
     }
 
     const categories: Category[] = [];
-    defaultCategories.forEach((c) => {
+    dummyCategories.forEach((c) => {
       selectedCategories.forEach((s: Item) => {
         if (c.id === s.id) {
           categories.push(c);
@@ -107,8 +107,6 @@ export function EditMeta({
     });
 
     const newMeta = new Meta(title, description, goalDate, steps, categories);
-
-    console.info(newMeta);
   }
 
   function showDatePicker() {

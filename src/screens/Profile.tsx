@@ -17,6 +17,7 @@ import {
   chartConfig,
   lineChartData,
   progressRingData,
+  ringChartConfig,
 } from "../data/chartDataExample";
 import { useAuth } from "../hooks/useAuth";
 import { findByKey } from "../utils/AvatarsUtil";
@@ -102,9 +103,9 @@ export function Profile() {
           data={progressRingData}
           width={Dimensions.get("window").width - 20}
           height={220}
-          strokeWidth={16}
-          radius={32}
-          chartConfig={chartConfig}
+          strokeWidth={12}
+          radius={20}
+          chartConfig={ringChartConfig}
           hideLegend={false}
         />
       </VStack>

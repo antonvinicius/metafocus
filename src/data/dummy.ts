@@ -31,7 +31,7 @@ export const dummyUserAttributes: UserAttribute[] = [
   new UserAttribute(dummyAttributes[9]),
 ];
 
-const dummyCategories: Category[] = [
+export const dummyCategories: Category[] = [
   new Category("Força", "red", [
     dummyAttributes[0],
     dummyAttributes[1],
