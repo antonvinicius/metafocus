@@ -21,8 +21,9 @@ import Bg from "../../assets/bg.jpg";
 import { ImageBackground } from "react-native";
 import { User } from "../models/User";
 import RNFS from "react-native-fs";
+import { getRealm } from "../realm/MetafocusDatabase";
 
-export function Import() {
+export function Import({ navigation }: any) {
   const toast = useToast();
   const [result, setResult] = useState<
     Array<DocumentPickerResponse> | DirectoryPickerResponse | undefined | null
@@ -61,7 +62,11 @@ export function Import() {
         if (file[0].fileCopyUri) {
           const fileContent = await RNFS.readFile(file[0].fileCopyUri);
           const user: User = JSON.parse(fileContent);
-          console.log(JSON.stringify(user, null, 2));
+          const realm = await getRealm();
+          realm.write(() => {
+            realm.create("UserSchema", user, Realm.UpdateMode.All);
+          });
+          navigation.navigate("Login");
         }
       }
     } catch (error) {
