@@ -60,7 +60,11 @@ export function Register({ navigation }: any) {
               mb={10}
               shadow={2}
               fontSize={30}
-              onPress={() => navigation.navigate("PickAvatar")}
+              onPress={() => {
+                if (nickname != "") {
+                  navigation.navigate("PickAvatar", { nickname });
+                }
+              }}
             >
               Continuar
             </Button>

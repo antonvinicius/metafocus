@@ -27,7 +27,7 @@ import { getCurrentTimeFileName } from "../utils/DataFormatter";
 import { dummyUser } from "../data/dummy";
 
 export function Profile() {
-  const { setAuthenticated } = useAuth();
+  const { logout } = useAuth();
   const toast = useToast();
   const user = dummyUser;
 
@@ -53,7 +53,7 @@ export function Profile() {
         <Button
           alignSelf={"flex-end"}
           leftIcon={<Icon as={Feather} name="power" w={50} h={50} />}
-          onPress={() => setAuthenticated(false)}
+          onPress={logout}
         >
           Sair
         </Button>

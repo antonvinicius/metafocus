@@ -3,7 +3,7 @@ export const UserAttributeSchema = {
   properties: {
     id: "string",
     level: "int",
-    current: "number",
+    current: "int",
     attribute: "AttributeSchema",
   },
   primaryKey: "id",

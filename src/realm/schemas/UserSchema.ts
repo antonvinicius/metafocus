@@ -4,7 +4,7 @@ export const UserSchema = {
     id: "string",
     nickname: "string",
     avatar: "string",
-    attributes: "AttributeSchema[]",
+    attributes: "UserAttributeSchema[]",
     metas: "MetaSchema[]",
   },
   primaryKey: "id",
