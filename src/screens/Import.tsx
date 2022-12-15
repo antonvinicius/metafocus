@@ -1,100 +1,121 @@
 import React, { useEffect, useState } from "react";
-import
-{
-    Box,
-    Button,
-    Center,
-    Heading,
-    Image,
-    Input,
-    StatusBar,
-    Text,
-    useToast,
+import {
+  Box,
+  Button,
+  Center,
+  Heading,
+  Image,
+  Input,
+  StatusBar,
+  Text,
+  useToast,
 } from "native-base";
+import DocumentPicker, {
+  DirectoryPickerResponse,
+  DocumentPickerResponse,
+  isInProgress,
+  types,
+} from "react-native-document-picker";
 
 import Bg from "../../assets/bg.jpg";
 import { ImageBackground } from "react-native";
 import { User } from "../models/User";
+import RNFS from "react-native-fs";
 
-export function Import()
-{
-    var RNFS = require('react-native-fs');
-    const toast = useToast();
-    async function importProfile()
-    {
-        // get a list of files and directories in the main bundle
-        RNFS.readDir(RNFS.DownloadDirectoryPath)
-            .then((result: { path: any; }[]) =>
-            {
-                console.log('GOT RESULT', result);
+export function Import() {
+  const toast = useToast();
+  const [result, setResult] = useState<
+    Array<DocumentPickerResponse> | DirectoryPickerResponse | undefined | null
+  >();
 
-                // stat the first file
-                return Promise.all([RNFS.stat(result[0].path), result[0].path]);
-            })
-            .then((statResult: any[]) =>
-            {
-                if (statResult[0].isFile())
-                {
-                    // if we have a file, read it
-                    return RNFS.readFile(statResult[1], 'utf8');
-                }
-
-                return 'no file';
-            })
-            .then((contents: any) =>
-            {
-                // log the file contents
-                console.log(contents);
-                let json = JSON.parse(contents);
-                let existingUser: User = new User(json.nickname, json.avatar);
-            })
-            .catch((err: { message: any; code: any; }) =>
-            {
-                console.log(err.message, err.code);
-            });
+  async function importProfile() {
+    try {
+      const pickerResult = await DocumentPicker.pickSingle({
+        presentationStyle: "fullScreen",
+        copyTo: "cachesDirectory",
+      });
+      setResult([pickerResult]);
+    } catch (e) {
+      handleError(e);
     }
+  }
 
-    return (
-        <Box flex="1">
-            <StatusBar
-                translucent
-                barStyle="light-content"
-                backgroundColor="transparent"
-            />
-            <ImageBackground resizeMode="cover" source={Bg} style={{ flex: 1 }}>
-                <Center mt={21} height="full">
-                    <Box>
-                        <Heading
-                            mt={50}
-                            fontSize={20}
-                            color="white"
-                            justifyContent={"center"}
-                            flexDirection={"column"}
-                            alignItems={"center"}
-                            numberOfLines={3}
-                            textAlign="center"
-                        >
-                            Caso possua algum arquivo JSON exportado do app, o botão ira automaticamente buscar o seu json mais recente
-                        </Heading>
+  function handleError(err: any) {
+    if (DocumentPicker.isCancel(err)) {
+      console.warn("cancelled");
+      // User cancelled the picker, exit any dialogs or menus and move on
+    } else if (isInProgress(err)) {
+      console.warn(
+        "multiple pickers were opened, only the last will be considered"
+      );
+    } else {
+      throw err;
+    }
+  }
 
-                        <Button
-                            my="5"
-                            borderRadius={10}
-                            alignSelf={"center"}
-                            justifyContent={"center"}
-                            alignItems={"center"}
-                            height={10}
-                            width={150}
-                            mb={10}
-                            shadow={2}
-                            fontSize={30}
-                            onPress={importProfile}
-                        >
-                            Abrir arquivo
-                        </Button>
-                    </Box>
-                </Center>
-            </ImageBackground>
-        </Box>
-    );
+  async function handleResult(result: any) {
+    try {
+      if (result) {
+        const file = result as DocumentPickerResponse[];
+        console.log();
+        if (file[0].fileCopyUri) {
+          const fileContent = await RNFS.readFile(file[0].fileCopyUri);
+          const user: User = JSON.parse(fileContent);
+          console.log(JSON.stringify(user, null, 2));
+        }
+      }
+    } catch (error) {
+      console.error(error);
+      toast.show({ description: "Ocorreu um erro" });
+    }
+  }
+
+  useEffect(() => {
+    console.log(JSON.stringify(result, null, 2));
+    if (result) handleResult(result);
+  }, [result]);
+
+  return (
+    <Box flex="1">
+      <StatusBar
+        translucent
+        barStyle="light-content"
+        backgroundColor="transparent"
+      />
+      <ImageBackground resizeMode="cover" source={Bg} style={{ flex: 1 }}>
+        <Center mt={21} height="full">
+          <Box>
+            <Text
+              mt={50}
+              color="white"
+              justifyContent={"center"}
+              flexDirection={"column"}
+              alignItems={"center"}
+              numberOfLines={3}
+              textAlign="center"
+            >
+              Aperte no botão e escolha o arquivo que foi exportado
+              anteriormente.
+            </Text>
+
+            <Button
+              my="5"
+              borderRadius={10}
+              alignSelf={"center"}
+              justifyContent={"center"}
+              alignItems={"center"}
+              height={10}
+              width={150}
+              mb={10}
+              shadow={2}
+              fontSize={30}
+              onPress={importProfile}
+            >
+              Abrir arquivo
+            </Button>
+          </Box>
+        </Center>
+      </ImageBackground>
+    </Box>
+  );
 }
