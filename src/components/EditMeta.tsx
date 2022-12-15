@@ -169,9 +169,10 @@ export function EditMeta({
 
   function onMultiChange() {
     return (item: any) => {
-      console.log("item: ", item);
-      const clone = [...selectedCategories, item];
-      return setSelectedCategories(clone);
+      // console.log("item: ", item);
+      // const clone = [...selectedCategories, item];
+      // return setSelectedCategories(clone);
+      setSelectedCategories(xorBy(selectedCategories, [item], "id"));
     };
   }
 
