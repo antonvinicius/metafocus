@@ -33,6 +33,7 @@ export function Import() {
       const pickerResult = await DocumentPicker.pickSingle({
         presentationStyle: "fullScreen",
         copyTo: "cachesDirectory",
+        type: "application/json",
       });
       setResult([pickerResult]);
     } catch (e) {
