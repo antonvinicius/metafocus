@@ -55,12 +55,11 @@ export function EditMeta({
   const [selectExampleData, setSelectExampleData] = useState<Item[]>([]);
 
   function resetState() {
-    setTitle("");
-    setDescription("");
-    setGoalDate(null);
+    setTitle(meta.title);
+    setDescription(meta.description);
+    setGoalDate(meta.goalDate);
     setSelectedCategories([]);
-    setSteps([]);
-    setSelectExampleData([]);
+    setSteps(meta.steps);
   }
 
   function handleCloseModal() {
