@@ -52,7 +52,6 @@ export function CreateMeta() {
     setGoalDate(null);
     setSelectedCategories([]);
     setSteps([]);
-    setSelectExampleData([]);
   }
 
   function handleCloseModal() {
