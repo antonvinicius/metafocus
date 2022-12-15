@@ -6,46 +6,89 @@ import {
   useContext,
   useState,
 } from "react";
-import { realmContext } from "../config/Realm";
 import { User } from "../models/User";
+import { getRealm } from "../realm/MetafocusDatabase";
+import { seed } from "../realm/seed/seedData";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+const userKey = "@metafocus:user_key";
 
 interface AuthContextProps {
   authenticated: boolean;
-  setAuthenticated: Dispatch<SetStateAction<boolean>>;
-  createUser: (user: any) => void;
+  authenticate: (user: User) => void;
+  user: User;
+  logout: () => void;
+  updateUser: () => void;
+  loading: boolean;
 }
 
 const AuthContext = createContext<AuthContextProps>({} as AuthContextProps);
 
 export function AuthProvider({ children }: any) {
-  const { useRealm, useQuery } = realmContext;
+  const [user, setUser] = useState({} as User);
   const [authenticated, setAuthenticated] = useState(false);
-  const users = useQuery<User>("User");
-  const realm = useRealm();
+  const [loading, setLoading] = useState(true);
 
-  function createUser(user: any) {
-    if (user.nickname) {
-      realm.write(() => {
-        realm.create("User", user);
-      });
+  async function authenticate(user: User) {
+    try {
+      setLoading(true);
+      const userToStore = JSON.stringify(user);
+      await AsyncStorage.setItem(userKey, userToStore);
+      setUser(user);
+      setAuthenticated(true);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function logout() {
+    setLoading(true);
+    setAuthenticated(false);
+    await AsyncStorage.clear();
+    setLoading(false);
+  }
+
+  async function updateUser() {
+    const realm = await getRealm();
+    const modelUser = realm.objectForPrimaryKey(
+      "UserSchema",
+      user.id
+    ) as unknown as User;
+    setUser(modelUser);
+  }
+
+  async function checkLogin() {
+    try {
+      setLoading(true);
+      const value = await AsyncStorage.getItem(userKey);
+      if (value !== null) {
+        const user: User = JSON.parse(value);
+        await authenticate(user);
+      }
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setLoading(false);
     }
   }
 
   useEffect(() => {
-    const userRegistered = users.length > 0;
-    if (!userRegistered)
-      console.info("User is not registered, provide nickname 😅");
-
-    setAuthenticated(userRegistered);
-  }, [users]);
+    checkLogin();
+    seed();
+  }, []);
 
   return (
     <>
       <AuthContext.Provider
         value={{
           authenticated,
-          setAuthenticated,
-          createUser,
+          authenticate,
+          user,
+          logout,
+          updateUser,
+          loading,
         }}
       >
         {children}

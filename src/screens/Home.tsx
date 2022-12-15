@@ -1,46 +1,85 @@
-import { Box, Heading, Button, Icon, FlatList } from "native-base";
-import Ionicons from "react-native-vector-icons/Ionicons";
-import React from "react";
-import { data } from "../server/metas.json";
+import {
+  Box,
+  Button,
+  FlatList,
+  Heading,
+  HStack,
+  Image,
+  Text,
+  VStack,
+} from "native-base";
+import React, { useEffect, useState } from "react";
+import { Pressable } from "react-native";
+import { CreateMeta } from "../components/CreateMeta";
 import { MetaItem } from "../components/MetaItem";
+import { useAuth } from "../hooks/useAuth";
+import { findByKey } from "../utils/AvatarsUtil";
+
+enum MetaState {
+  finished,
+  progress,
+}
 
 export function Home() {
-  const noMeta = (
-    <>
-      <Box flex="1" alignItems="center" justifyContent="center">
-        <Heading mb="4" fontSize="16px" color="#A3A3A3">
-          Você ainda não possui metas...
-        </Heading>
-        <Button
-          endIcon={<Icon as={Ionicons} name="add" size="sm" />}
-          bgColor="#38B387"
-          marginTop="1"
-        >
-          Criar meta
-        </Button>
-      </Box>
-    </>
-  );
+  const { user } = useAuth();
+  const metas = user.metas;
+
+  const [metaState, setMetaState] = useState(MetaState.progress);
 
   return (
-    <Box flex="1">
-      {data.length === 0 && noMeta}
-      {data.filter((item) => item.status === 0).length === 0 && noMeta}
-      {data.length > 0 && (
-        <Box p="2">
-          <FlatList
-            data={data}
-            keyExtractor={(item) => item.id.toString()}
-            renderItem={({ item }) =>
-              item.status === 0 ? (
-                <Box marginBottom="2">
-                  <MetaItem key={item.id} meta={item} />
-                </Box>
-              ) : null
-            }
+    <VStack space="5" flex="1" p="25px">
+      <CreateMeta />
+      {/* Header */}
+      <VStack space={2}>
+        <HStack alignItems="center" justifyContent="space-between">
+          <Heading>Olá, {user.nickname}</Heading>
+          <Image
+            borderRadius="full"
+            backgroundColor="primary.400"
+            source={findByKey(user.avatar).source}
+            w="90px"
+            h="90px"
+            alt="avatar"
           />
-        </Box>
-      )}
-    </Box>
+        </HStack>
+      </VStack>
+
+      {/* State selector */}
+      <VStack>
+        <Box w="100%" h="1px" bg="primary.700" />
+        <HStack>
+          <Box
+            onTouchStart={() => setMetaState(MetaState.finished)}
+            py="10px"
+            flex={1}
+            bg={metaState === MetaState.finished ? "primary.300" : null}
+          >
+            <Text textAlign="center">Concluído</Text>
+          </Box>
+          <Box
+            onTouchStart={() => setMetaState(MetaState.progress)}
+            py="10px"
+            flex={1}
+            bg={metaState === MetaState.progress ? "primary.300" : null}
+          >
+            <Text textAlign="center">Em andamento</Text>
+          </Box>
+        </HStack>
+      </VStack>
+
+      <FlatList
+        data={
+          metaState === MetaState.progress
+            ? metas.filter((m) => !m.finished)
+            : metas.filter((m) => m.finished)
+        }
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => (
+          <Box my="2">
+            <MetaItem meta={item} />
+          </Box>
+        )}
+      />
+    </VStack>
   );
 }

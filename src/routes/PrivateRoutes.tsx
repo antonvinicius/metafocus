@@ -5,25 +5,35 @@ import { Meta } from "../screens/Meta";
 import { Profile } from "../screens/Profile";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import { Box } from "native-base";
+import { Box, Icon, Text } from "native-base";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Results } from "../screens/Results";
+import { theme } from "../global/theme";
+import { CreateMeta } from "../components/CreateMeta";
+import { useModal } from "../hooks/useModal";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
+function AddComponent() {
+  return null;
+}
+
 function Tabs() {
+  const { setModalVisible } = useModal();
+
   return (
     <Tab.Navigator
       screenOptions={{
         headerShown: false,
         tabBarStyle: {
-          height: 100,
+          height: 60,
+          backgroundColor: theme.colors.primary,
         },
+        tabBarShowLabel: false,
         tabBarLabelStyle: {
           fontSize: 16,
           color: "#000000",
-          marginBottom: 13,
         },
         tabBarIconStyle: {
           padding: 0,
@@ -36,17 +46,9 @@ function Tabs() {
         name="Home"
         component={Home}
         options={{
-          headerShown: true,
-          headerStyle: {
-            backgroundColor: "#38B387",
-          },
-          headerTitleStyle: {
-            color: "#FFF",
-          },
-          headerTitleAlign: "center",
-          headerTitle: "Suas Metas",
+          headerShown: false,
           tabBarIcon: () => (
-            <Box p="10px" rounded="full" bg="#38B387">
+            <Box p="10px" rounded="full">
               <AntDesign size={25} name="home" color="#FFF" />
             </Box>
           ),
@@ -54,37 +56,38 @@ function Tabs() {
       />
       <Tab.Screen
         options={{
-          headerShown: true,
-          tabBarIcon: () => (
-            <Box p="10px" rounded="full" bg="#38B387">
-              <AntDesign size={25} name="plussquareo" color="#FFF" />
+          tabBarButton: () => (
+            <Box
+              shadow="2"
+              w="50px"
+              h="50px"
+              bg="primary.500"
+              borderRadius="full"
+              justifyContent="center"
+              alignItems="center"
+              mt="-25px"
+              onTouchStart={() => setModalVisible(true)}
+            >
+              <AntDesign name="pluscircle" size={25} color="white" />
             </Box>
           ),
-          headerStyle: {
-            backgroundColor: "#38B387",
-          },
-          headerTitleStyle: {
-            color: "#FFF",
-          },
-          headerTitleAlign: "center",
-          headerTitle: "Nova Meta",
         }}
-        name="Meta"
-        component={Meta}
+        name="AddComponent"
+        component={AddComponent}
       />
       <Tab.Screen
         options={{
           headerShown: true,
-          headerStyle: {
-            backgroundColor: "#38B387",
-          },
           headerTitleStyle: {
             color: "#FFF",
           },
           headerTitleAlign: "center",
           headerTitle: "Perfil",
+          headerStyle: {
+            backgroundColor: theme.colors.primary,
+          },
           tabBarIcon: () => (
-            <Box p="10px" rounded="full" bg="#38B387">
+            <Box p="10px" rounded="full">
               <Ionicons size={25} name="person" color="#FFF" />
             </Box>
           ),
@@ -107,9 +110,6 @@ export function PrivateRoutes() {
       <Stack.Screen
         options={{
           headerShown: true,
-          headerStyle: {
-            backgroundColor: "#38B387",
-          },
           headerTitleStyle: {
             color: "#FFF",
           },

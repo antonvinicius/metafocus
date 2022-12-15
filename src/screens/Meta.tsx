@@ -14,7 +14,6 @@ import {
   TextArea,
 } from "native-base";
 import Entypo from "react-native-vector-icons/Entypo";
-import { NewCategory } from "../components/NewCategory";
 import { BackHandler } from "react-native";
 
 export function Meta() {
@@ -26,7 +25,6 @@ export function Meta() {
 
   return (
     <>
-      {showModal && <NewCategory hideModal={closeModal} />}
       <Box flex="1" w="100%" p="5">
         <ScrollView flex="1">
           <FormControl isRequired>
@@ -55,14 +53,7 @@ export function Meta() {
           </Pressable>
 
           <HStack justifyContent="center" space="4" mt="5">
-            <Button
-              _pressed={{
-                bg: "#1b6b4f",
-              }}
-              bg="#38B387"
-            >
-              Salvar
-            </Button>
+            <Button>Salvar</Button>
             <Button colorScheme="danger" variant="outline">
               Cancelar
             </Button>

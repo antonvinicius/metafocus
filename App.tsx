@@ -1,10 +1,9 @@
 import { NativeBaseProvider } from "native-base";
 import React, { useEffect } from "react";
-import { realmContext } from "./src/config/Realm";
 import { Routes } from "./src/routes";
 import { AuthProvider } from "./src/hooks/useAuth";
-
-const { RealmProvider } = realmContext;
+import { nativeBaseTheme } from "./src/global/theme";
+import { ModalProvider } from "./src/hooks/useModal";
 
 export function App() {
   useEffect(() => {
@@ -12,12 +11,12 @@ export function App() {
   }, []);
 
   return (
-    <RealmProvider>
-      <NativeBaseProvider>
+    <ModalProvider>
+      <NativeBaseProvider theme={nativeBaseTheme}>
         <AuthProvider>
           <Routes />
         </AuthProvider>
       </NativeBaseProvider>
-    </RealmProvider>
+    </ModalProvider>
   );
 }

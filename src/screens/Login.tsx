@@ -1,66 +1,99 @@
-import React, { useState } from "react";
-import { Box, Button, Center, Heading, Image, Input, Text } from "native-base";
+import React, { useState, useEffect } from "react";
+import {
+  Box,
+  Button,
+  Center,
+  FlatList,
+  Heading,
+  Image,
+  Pressable,
+  Text,
+  VStack,
+} from "native-base";
 
+import Bg from "../../assets/bg.jpg";
 import Logo from "../../assets/logo.png";
-import { useAuth } from "../hooks/useAuth";
+import { ImageBackground } from "react-native";
+import { avatars, findByKey } from "../utils/AvatarsUtil";
 import { User } from "../models/User";
+import { getRealm } from "../realm/MetafocusDatabase";
+import { useAuth } from "../hooks/useAuth";
+import { useFocusEffect } from "@react-navigation/native";
 
-export function Login() {
-  const [nickname, setNickname] = useState("");
-  const { createUser } = useAuth();
+export function Login({ navigation }: any) {
+  const { authenticate } = useAuth();
+  const [users, setUsers] = useState<User[]>([]);
+
+  async function getData() {
+    const realm = await getRealm();
+    const data = realm.objects("UserSchema") as unknown as User[];
+    setUsers(data);
+  }
+
+  useFocusEffect(
+    React.useCallback(() => {
+      getData();
+    }, [])
+  );
 
   return (
-    <Center height={"full"}>
-      <Image source={Logo} width={192} height={111} alt="Logo" mt={-5} />
-      <Box>
-        <Heading
-          mt={15}
-          fontSize={20}
-          justifyContent={"center"}
-          flexDirection={"column"}
-          alignItems={"center"}
-          numberOfLines={3}
-        >
-          Como você quer ser chamado?
-        </Heading>
-        <Input
-          fontSize={15}
-          placeholder="Nickname"
-          placeholderTextColor={"#A3A3A3"}
-          value={nickname}
-          onChangeText={setNickname}
-          mt={9}
-          mb={9}
-        />
-
-        <Button
-          borderRadius={10}
-          alignSelf={"center"}
-          justifyContent={"center"}
-          alignItems={"center"}
-          height={10}
-          width={150}
-          mb={10}
-          shadow={2}
-          fontSize={30}
-          bgColor={"#38B374"}
-          onPress={() => {
-            const user = User.generate(nickname);
-            createUser(user);
-          }}
-        >
-          Registrar-se
-        </Button>
-      </Box>
-
-      <Text
-        color={"#A3A3A3"}
-        mt={35}
-        justifyContent={"center"}
-        alignItems={"flex-end"}
-      >
-        ©MetaFocus
-      </Text>
-    </Center>
+    <Box flex="1">
+      <ImageBackground resizeMode="cover" source={Bg} style={{ flex: 1 }}>
+        <Box p={5} flex="1" justifyContent={"space-between"}>
+          <VStack space={3}>
+            <Center mt="10px">
+              <Image source={Logo} alt="Logo" />
+            </Center>
+            <Heading
+              fontSize={20}
+              color="white"
+              justifyContent={"center"}
+              flexDirection={"column"}
+              alignItems={"center"}
+              numberOfLines={3}
+              textAlign="center"
+            >
+              Seja bem vindo ao{"\n"}
+              Metafocus
+            </Heading>
+            <Box>
+              <Heading my={5} color="white">
+                Contas existentes
+              </Heading>
+              <FlatList
+                horizontal
+                data={users}
+                renderItem={({ item }) => (
+                  <Pressable onPress={() => authenticate(item)}>
+                    <Box py={2}>
+                      <Box p={2} mx="5" bg="white" borderRadius={"full"}>
+                        <Image
+                          source={findByKey(item.avatar).source}
+                          w={50}
+                          h={50}
+                          alt="avatar"
+                        />
+                      </Box>
+                      <Text textAlign="center" color="white">
+                        {item.nickname}
+                      </Text>
+                    </Box>
+                  </Pressable>
+                )}
+              />
+            </Box>
+            <Button onPress={() => navigation.navigate("Register")}>
+              Criar nova conta
+            </Button>
+            <Button onPress={() => navigation.navigate("Import")}>
+              Conta existente
+            </Button>
+          </VStack>
+          <Text mt={35} color="white" textAlign="center">
+            ©MetaFocus
+          </Text>
+        </Box>
+      </ImageBackground>
+    </Box>
   );
 }
