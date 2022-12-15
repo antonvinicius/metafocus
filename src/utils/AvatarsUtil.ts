@@ -70,5 +70,5 @@ export const avatars: AvatarProps[] = [
 export function findByKey(key: string): AvatarProps {
   const avatar = avatars.find((a) => a.key === key);
   if (avatar) return avatar;
-  else throw new Error("Invalid avatar key");
+  else throw new Error("Invalid avatar key: " + key);
 }

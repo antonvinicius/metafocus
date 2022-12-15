@@ -9,6 +9,9 @@ import {
 import { User } from "../models/User";
 import { getRealm } from "../realm/MetafocusDatabase";
 import { seed } from "../realm/seed/seedData";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+const userKey = "@metafocus:user_key";
 
 interface AuthContextProps {
   authenticated: boolean;
@@ -16,6 +19,7 @@ interface AuthContextProps {
   user: User;
   logout: () => void;
   updateUser: () => void;
+  loading: boolean;
 }
 
 const AuthContext = createContext<AuthContextProps>({} as AuthContextProps);
@@ -23,15 +27,27 @@ const AuthContext = createContext<AuthContextProps>({} as AuthContextProps);
 export function AuthProvider({ children }: any) {
   const [user, setUser] = useState({} as User);
   const [authenticated, setAuthenticated] = useState(false);
+  const [loading, setLoading] = useState(true);
 
-  function authenticate(user: User) {
-    setAuthenticated(true);
-    setUser(user);
-    console.log(JSON.stringify(user, null, 2));
+  async function authenticate(user: User) {
+    try {
+      setLoading(true);
+      const userToStore = JSON.stringify(user);
+      await AsyncStorage.setItem(userKey, userToStore);
+      setUser(user);
+      setAuthenticated(true);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
   }
 
-  function logout() {
+  async function logout() {
+    setLoading(true);
     setAuthenticated(false);
+    await AsyncStorage.clear();
+    setLoading(false);
   }
 
   async function updateUser() {
@@ -43,8 +59,23 @@ export function AuthProvider({ children }: any) {
     setUser(modelUser);
   }
 
+  async function checkLogin() {
+    try {
+      setLoading(true);
+      const value = await AsyncStorage.getItem(userKey);
+      if (value !== null) {
+        const user: User = JSON.parse(value);
+        await authenticate(user);
+      }
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setLoading(false);
+    }
+  }
+
   useEffect(() => {
-    // TODO: Check if already logged in
+    checkLogin();
     seed();
   }, []);
 
@@ -57,6 +88,7 @@ export function AuthProvider({ children }: any) {
           user,
           logout,
           updateUser,
+          loading,
         }}
       >
         {children}
